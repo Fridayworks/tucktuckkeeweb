@@ -535,20 +535,20 @@
 
             <!-- Payment Instructions Section -->
             <div class="mb-12 border-b border-gray-700 pb-12">
-                <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest text-center">Payment Instructions</h3>
+                <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest text-center" data-i18n="payment_title">Payment Instructions</h3>
                 <div class="bg-amber-50 p-6 rounded-xl border-2 border-tuck-yellow text-tuck-navy">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="text-center">
                             <i class="fa-brands fa-whatsapp text-green-500 text-4xl mb-3"></i>
-                            <h4 class="font-black text-lg mb-2">WhatsApp Orders</h4>
-                            <p class="font-bold text-sm">For orders placed via WhatsApp:</p>
-                            <p class="text-sm mt-1">Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span></p>
+                            <h4 class="font-black text-lg mb-2" data-i18n="payment_whatsapp_title">WhatsApp Orders</h4>
+                            <p class="font-bold text-sm" data-i18n="payment_whatsapp_desc">For orders placed via WhatsApp:</p>
+                            <p class="text-sm mt-1" data-i18n="payment_whatsapp_detail">Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span></p>
                         </div>
                         <div class="text-center">
                             <i class="fa-solid fa-user-tie text-tuck-red text-4xl mb-3"></i>
-                            <h4 class="font-black text-lg mb-2">Direct Orders</h4>
-                            <p class="font-bold text-sm">For orders placed directly with staff:</p>
-                            <p class="text-sm mt-1">Payment can be made at the counter after receiving your order</p>
+                            <h4 class="font-black text-lg mb-2" data-i18n="payment_direct_title">Direct Orders</h4>
+                            <p class="font-bold text-sm" data-i18n="payment_direct_desc">For orders placed directly with staff:</p>
+                            <p class="text-sm mt-1" data-i18n="payment_direct_detail">Payment can be made at the counter after receiving your order</p>
                         </div>
                     </div>
                 </div>
@@ -1147,7 +1147,7 @@
                 menu_heading: 'Our Menu', reviews_heading: 'Customer Reviews', story_heading: 'Our Story',
                 ch1_label: 'Chapter 1: The Beginning', ch1_title: "A Father's Passion",
                 ch1_text: "Tuck Tuck Kee's story began decades ago in the heart of Bercham, Ipoh, with a hardworking father and a passion for serving authentic local food. What started as a humble family-operated stall gradually became a beloved gathering place for the community, known for its traditional flavors and warm hospitality.",
-                ch2_label: 'Chapter 2: The Wok', ch2_title: 'Learning the Craft',
+                ch2_label: 'Chapter 2: The Beginning', ch2_title: 'Learning the Craft',
                 ch2_text: 'From a young age, his daughter spent her days helping at the family business. She learned every aspect of the trade—from preparing fresh ingredients and serving customers to understanding the art of cooking over a hot wok. More importantly, she learned the values of dedication, consistency, and respect for every customer who visited.',
                 ch3_label: 'Chapter 3: The Secret', ch3_title: 'Recipes Passed Down',
                 ch3_text: "The recipes that made Tuck Tuck Kee special were never written in books. They were carefully passed down from generation to generation, preserving the family's unique cooking methods, secret ingredients, and authentic flavors. These treasured recipes became part of the family's heritage and identity.",
@@ -1162,6 +1162,10 @@
                 res_heading: 'Book A Table', res_subheading: 'Secure your spot for an authentic street dining experience.',
                 res_label: 'Reserve Your Table', res_name: 'Your Name', res_phone: 'Phone Number', res_date: 'Date', res_time: 'Time', res_guests: 'Number of Guests', res_btn: 'Book via WhatsApp',
                 footer_contact: 'Contact Us', footer_scan: 'Scan & Order', footer_scan_desc: 'Dining with us? Scan the QR code at your table to place your order directly via WhatsApp.',
+                payment_title: 'Payment Instructions', payment_whatsapp_title: 'WhatsApp Orders', payment_whatsapp_desc: 'For orders placed via WhatsApp:', 
+                payment_whatsapp_detail: 'Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span>',
+                payment_direct_title: 'Direct Orders', payment_direct_desc: 'For orders placed directly with staff:', 
+                payment_direct_detail: 'Payment can be made at the counter after receiving your order'
             },
             zh: {
                 nav_home: '首页', nav_about: '关于我们', nav_menu: '菜单', nav_reviews: '评价', nav_contact: '联系我们', nav_order: '立即点餐',
@@ -1186,6 +1190,10 @@
                 res_heading: '预订座位', res_subheading: '保留您的位置，享受正宗的路边餐饮体验。',
                 res_label: '预订您的座位', res_name: '您的姓名', res_phone: '电话号码', res_date: '日期', res_time: '时间', res_guests: '用餐人数', res_btn: '通过 WhatsApp 预订',
                 footer_contact: '联系我们', footer_scan: '扫码点餐', footer_scan_desc: '在我们餐厅用餐？扫描桌上的二维码，直接通过 WhatsApp 下单。',
+                payment_title: '付款说明', payment_whatsapp_title: 'WhatsApp订单', payment_whatsapp_desc: '通过WhatsApp下单：', 
+                payment_whatsapp_detail: '必须先通过Touch & Go eWallet支付至号码 <span class="font-black text-tuck-red">016-506 5983</span>',
+                payment_direct_title: '直接订单', payment_direct_desc: '直接向员工下单：', 
+                payment_direct_detail: '收到订单后可在柜台付款'
             },
             ja: {
                 nav_home: 'ホーム', nav_about: '私たちについて', nav_menu: 'メニュー', nav_reviews: 'レビュー', nav_contact: 'お問い合わせ', nav_order: '今すぐ注文',
@@ -1210,6 +1218,10 @@
                 res_heading: 'テーブルを予約', res_subheading: '本格的な路地裏ダイニング体験のためにお席を確保してください。',
                 res_label: 'テーブルを予約する', res_name: 'お名前', res_phone: '電話番号', res_date: '日付', res_time: '時間', res_guests: 'ゲスト人数', res_btn: 'WhatsAppで予約',
                 footer_contact: 'お問い合わせ', footer_scan: 'スキャン＆注文', footer_scan_desc: '食事中ですか？テーブルのQRコードをスキャンして、WhatsAppで直接ご注文ください。',
+                payment_title: '支払い方法', payment_whatsapp_title: 'WhatsApp注文', payment_whatsapp_desc: 'WhatsAppでの注文の場合：', 
+                payment_whatsapp_detail: '最初にTouch & Go eWalletで番号 <span class="font-black text-tuck-red">016-506 5983</span> に支払いが必要です',
+                payment_direct_title: '直接注文', payment_direct_desc: 'スタッフへの直接注文の場合：', 
+                payment_direct_detail: '注文受領後にカウンターで支払えます'
             },
             ms: {
                 nav_home: 'Laman Utama', nav_about: 'Tentang Kami', nav_menu: 'Menu', nav_reviews: 'Ulasan', nav_contact: 'Hubungi', nav_order: 'Pesan Sekarang',
@@ -1234,6 +1246,10 @@
                 res_heading: 'Tempah Meja', res_subheading: 'Pastikan tempat anda untuk pengalaman makan tepi jalan yang asli.',
                 res_label: 'Tempah Meja Anda', res_name: 'Nama Anda', res_phone: 'Nombor Telefon', res_date: 'Tarikh', res_time: 'Masa', res_guests: 'Bilangan Tetamu', res_btn: 'Tempah melalui WhatsApp',
                 footer_contact: 'Hubungi Kami', footer_scan: 'Imbas & Pesan', footer_scan_desc: 'Makan di sini? Imbas kod QR di meja anda untuk membuat pesanan terus melalui WhatsApp.',
+                payment_title: 'Arahan Pembayaran', payment_whatsapp_title: 'Pesanan WhatsApp', payment_whatsapp_desc: 'Untuk pesanan melalui WhatsApp:', 
+                payment_whatsapp_detail: 'Pembayaran mesti dibuat dahulu melalui Touch & Go eWallet ke nombor <span class="font-black text-tuck-red">016-506 5983</span>',
+                payment_direct_title: 'Pesanan Langsung', payment_direct_desc: 'Untuk pesanan langsung dengan staf:', 
+                payment_direct_detail: 'Pembayaran boleh dibuat di kaunter selepas menerima pesanan anda'
             }
         };
 
