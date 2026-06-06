@@ -89,19 +89,8 @@
 </head>
 <body class="bg-amber-50 text-gray-800 font-sans pt-20 flex flex-col min-h-screen">
 
-    <!-- PAYMENT NOTICE BANNER -->
-    <div class="bg-red-600 text-white py-3 px-4 text-center fixed top-0 left-0 right-0 z-50 w-full">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-2">
-            <i class="fas fa-info-circle text-yellow-300 text-lg"></i>
-            <strong class="font-black">IMPORTANT:</strong> 
-            <span>For WhatsApp orders, payment must be made first via Touch & Go to number</span>
-            <strong class="font-black text-yellow-300">016-506 5983</strong>
-            <span>otherwise order directly with the staff.</span>
-        </div>
-    </div>
-
     <!-- NAVIGATION -->
-    <nav class="fixed w-full z-40 top-16 bg-tuck-navy border-b-4 border-tuck-red transition-all duration-300 shadow-xl" id="navbar">
+    <nav class="fixed w-full z-50 top-0 bg-tuck-navy border-b-4 border-tuck-red transition-all duration-300 shadow-xl" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
@@ -425,12 +414,6 @@
                 <p class="text-gray-600 font-medium" data-i18n="res_subheading">Secure your spot for an authentic street dining experience.</p>
             </div>
 
-            <!-- Payment Notice in Reservation Section -->
-            <div class="bg-red-100 border-2 border-red-500 text-red-800 p-4 rounded-xl mb-8 text-center">
-                <i class="fas fa-exclamation-triangle mr-2"></i>
-                <strong>IMPORTANT:</strong> For WhatsApp orders, payment must be made first via Touch & Go to number <strong class="font-black">016-506 5983</strong>, otherwise order directly with the staff.
-            </div>
-
             <!-- Reservation Form -->
             <div class="bg-white p-8 rounded-2xl shadow-hard border-4 border-tuck-navy relative">
                 <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-tuck-yellow text-tuck-navy font-black px-6 py-2 border-2 border-tuck-navy shadow-sm rounded-full uppercase tracking-wider whitespace-nowrap">
@@ -484,7 +467,7 @@
                             <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_guests">Number of Guests</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fa-solid fa-users text-gray-400"></i>
+                                    <i class="fa-solid fa-users text-gray-400"></i>
                                 </div>
                                 <select id="res-guests" class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium appearance-none">
                                     <option value="1">1 Person</option>
@@ -545,6 +528,27 @@
                             <span class="font-black text-white text-sm uppercase block tracking-wider">Dine-in System</span>
                             <span class="text-xs text-tuck-yellow font-bold block mt-0.5"><i class="fa-solid fa-circle text-green-500 text-[8px] animate-pulse mr-1"></i> Active Ordering</span>
                             <span class="text-xs text-gray-400 block mt-1">Select items → Add to Cart → Send to WhatsApp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Instructions Section -->
+            <div class="mb-12 border-b border-gray-700 pb-12">
+                <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest text-center">Payment Instructions</h3>
+                <div class="bg-amber-50 p-6 rounded-xl border-2 border-tuck-yellow text-tuck-navy">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="text-center">
+                            <i class="fa-brands fa-whatsapp text-green-500 text-4xl mb-3"></i>
+                            <h4 class="font-black text-lg mb-2">WhatsApp Orders</h4>
+                            <p class="font-bold text-sm">For orders placed via WhatsApp:</p>
+                            <p class="text-sm mt-1">Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span></p>
+                        </div>
+                        <div class="text-center">
+                            <i class="fa-solid fa-user-tie text-tuck-red text-4xl mb-3"></i>
+                            <h4 class="font-black text-lg mb-2">Direct Orders</h4>
+                            <p class="font-bold text-sm">For orders placed directly with staff:</p>
+                            <p class="text-sm mt-1">Payment can be made at the counter after receiving your order</p>
                         </div>
                     </div>
                 </div>
@@ -690,15 +694,6 @@
                     </h4>
                     <p class="text-gray-800 text-sm font-black">Pay at Counter (Cash, Card, or TNG eWallet)</p>
                     <p class="text-xs text-gray-500 mt-1">Please make payment at the counter when you finish eating, or upon order verification by staff.</p>
-                </div>
-                
-                <!-- Updated Payment Instruction Block -->
-                <div class="bg-red-100 border-2 border-red-500 rounded-xl p-4 mt-6">
-                    <h4 class="font-black text-red-800 uppercase mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-exclamation-triangle text-red-600"></i> IMPORTANT PAYMENT NOTICE
-                    </h4>
-                    <p class="text-red-800 text-sm font-bold">For WhatsApp orders, payment must be made first via Touch & Go to number: <span class="font-black">016-506 5983</span></p>
-                    <p class="text-red-800 text-sm mt-1">Otherwise, order directly with the staff at the counter.</p>
                 </div>
                 
                 <!-- Hidden payment field for JS logic to grab -->
@@ -1210,7 +1205,7 @@
                 ch5_text: '今日、タック・タック・キーは伝統とコミュニティが出会う誇り高き家族経営のレストランであり続けています。家族や友人、訪問者がテーブルを囲み、時代を超えた食事を楽しんでいます。',
                 ch5_quote: 'ただのレストランではなく、タック・タック・キーは家族の遺産です——美食の永遠の喜びを通じて、人々をつなぎ続けています。',
                 sidebar_hours: '営業時間', sidebar_days: '水～月（火曜定休）', sidebar_promise: '私たちの約束',
-                promise1: '世代から受け継がれる家族のレシピ', promise2: '伝説のウォックヘイの味', promise3: '温かい家族のおもてなし',
+                promise1: '世代から受け継がれた家族のレシピ', promise2: '伝説のウォックヘイの味', promise3: '温かい家族のおもてなし',
                 sidebar_book: '今すぐ予約する',
                 res_heading: 'テーブルを予約', res_subheading: '本格的な路地裏ダイニング体験のためにお席を確保してください。',
                 res_label: 'テーブルを予約する', res_name: 'お名前', res_phone: '電話番号', res_date: '日付', res_time: '時間', res_guests: 'ゲスト人数', res_btn: 'WhatsAppで予約',
