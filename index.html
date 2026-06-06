@@ -77,6 +77,14 @@
         }
         .toast-enter { animation: slideIn 0.3s ease-out forwards; }
         .toast-exit { animation: fadeOut 0.3s ease-out forwards; }
+
+        /* Language Switcher */
+        .lang-dropdown { position: relative; }
+        .lang-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #0f172a; border: 2px solid #ffcc00; border-radius: 12px; min-width: 130px; z-index: 200; overflow: hidden; box-shadow: 4px 4px 0 rgba(15,23,42,1); }
+        .lang-dropdown:hover .lang-menu, .lang-dropdown.open .lang-menu { display: block; }
+        .lang-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; color: #fff; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; transition: background 0.15s; }
+        .lang-menu button:hover { background: rgba(255,204,0,0.15); color: #ffcc00; }
+        .lang-menu button.active { color: #ffcc00; background: rgba(255,204,0,0.1); }
     </style>
 </head>
 <body class="bg-amber-50 text-gray-800 font-sans pt-20 flex flex-col min-h-screen">
@@ -98,15 +106,30 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="#home" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Home</a>
-                    <a href="#about" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">About Us</a>
-                    <a href="#menu" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Menu</a>
-                    <a href="#reviews" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Reviews</a>
-                    <a href="#contact" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Contact</a>
+                    <a href="#home" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors" data-i18n="nav_home">Home</a>
+                    <a href="#about" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors" data-i18n="nav_about">About Us</a>
+                    <a href="#menu" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors" data-i18n="nav_menu">Menu</a>
+                    <a href="#reviews" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors" data-i18n="nav_reviews">Reviews</a>
+                    <a href="#contact" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors" data-i18n="nav_contact">Contact</a>
+
+                    <!-- Language Switcher -->
+                    <div class="lang-dropdown" id="lang-switcher">
+                        <button class="flex items-center gap-1 text-tuck-yellow font-black text-sm border-2 border-tuck-yellow/40 rounded-lg px-3 py-1.5 hover:border-tuck-yellow transition-colors" onclick="toggleLangMenu()">
+                            <i class="fa-solid fa-globe text-sm"></i>
+                            <span id="lang-label">EN</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="lang-menu" id="lang-menu">
+                            <button onclick="setLanguage('en')" class="active" id="lang-btn-en">🇬🇧 English</button>
+                            <button onclick="setLanguage('zh')" id="lang-btn-zh">🇨🇳 中文</button>
+                            <button onclick="setLanguage('ja')" id="lang-btn-ja">🇯🇵 日本語</button>
+                            <button onclick="setLanguage('ms')" id="lang-btn-ms">🇲🇾 Melayu</button>
+                        </div>
+                    </div>
                     
                     <!-- Cart Button -->
                     <button onclick="toggleCart()" class="relative bg-tuck-yellow hover:bg-yellow-400 text-tuck-navy px-5 py-2 rounded-lg font-black uppercase shadow-hard-sm transition-transform active:translate-y-1 active:shadow-none flex items-center gap-2">
-                        <i class="fa-solid fa-basket-shopping"></i> Order Now
+                        <i class="fa-solid fa-basket-shopping"></i> <span data-i18n="nav_order">Order Now</span>
                         <span id="cart-count" class="absolute -top-2 -right-2 bg-tuck-red text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-tuck-navy hidden">0</span>
                     </button>
                 </div>
@@ -127,11 +150,18 @@
         <!-- Mobile Menu Panel -->
         <div id="mobile-menu" class="md:hidden hidden bg-tuck-navy border-t border-gray-700">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-                <a href="#home" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Home</a>
-                <a href="#about" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">About Us</a>
-                <a href="#menu" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Menu</a>
-                <a href="#reviews" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Reviews</a>
-                <a href="#contact" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Contact</a>
+                <a href="#home" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md" data-i18n="nav_home">Home</a>
+                <a href="#about" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md" data-i18n="nav_about">About Us</a>
+                <a href="#menu" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md" data-i18n="nav_menu">Menu</a>
+                <a href="#reviews" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md" data-i18n="nav_reviews">Reviews</a>
+                <a href="#contact" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md" data-i18n="nav_contact">Contact</a>
+                <!-- Mobile Language Switcher -->
+                <div class="pt-2 border-t border-gray-700 mt-2 flex justify-center gap-2 flex-wrap">
+                    <button onclick="setLanguage('en')" class="text-xs font-black text-gray-300 hover:text-tuck-yellow px-2 py-1 rounded border border-gray-600 hover:border-tuck-yellow transition-colors" id="mob-lang-btn-en">🇬🇧 EN</button>
+                    <button onclick="setLanguage('zh')" class="text-xs font-black text-gray-300 hover:text-tuck-yellow px-2 py-1 rounded border border-gray-600 hover:border-tuck-yellow transition-colors" id="mob-lang-btn-zh">🇨🇳 中文</button>
+                    <button onclick="setLanguage('ja')" class="text-xs font-black text-gray-300 hover:text-tuck-yellow px-2 py-1 rounded border border-gray-600 hover:border-tuck-yellow transition-colors" id="mob-lang-btn-ja">🇯🇵 日本語</button>
+                    <button onclick="setLanguage('ms')" class="text-xs font-black text-gray-300 hover:text-tuck-yellow px-2 py-1 rounded border border-gray-600 hover:border-tuck-yellow transition-colors" id="mob-lang-btn-ms">🇲🇾 MS</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -147,18 +177,18 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-24 md:py-32 flex flex-col md:flex-row items-center">
             <div class="md:w-3/5 text-center md:text-left">
                 <h2 class="text-5xl md:text-7xl font-black text-white leading-tight mb-4 title-stroke">
-                    Fresh Octopus,<br>
-                    <span class="text-tuck-yellow title-stroke">Authentic Wok Hei!</span>
+                    <span data-i18n="hero_title1">Fresh Octopus,</span><br>
+                    <span class="text-tuck-yellow title-stroke" data-i18n="hero_title2">Authentic Wok Hei!</span>
                 </h2>
-                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-lg mx-auto md:mx-0 font-medium border-l-4 border-tuck-red pl-4">
+                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-lg mx-auto md:mx-0 font-medium border-l-4 border-tuck-red pl-4" data-i18n="hero_desc">
                     Savor the freshest seafood and legendary noodles cooked with our signature recipes and street-side passion. A taste of real Ipoh you won't forget!
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                     <a href="#menu" class="bg-tuck-yellow text-tuck-navy px-8 py-4 rounded-xl font-black uppercase text-lg shadow-hard transition-transform hover:-translate-y-1 active:translate-y-1 active:shadow-none text-center">
-                        <i class="fa-solid fa-book-open mr-2"></i> View Menu
+                        <i class="fa-solid fa-book-open mr-2"></i> <span data-i18n="hero_btn_menu">View Menu</span>
                     </a>
                     <a href="#reservation" class="bg-transparent border-4 border-tuck-yellow text-tuck-yellow px-8 py-4 rounded-xl font-black uppercase text-lg hover:bg-tuck-yellow hover:text-tuck-navy transition-colors text-center">
-                        <i class="fa-solid fa-calendar-check mr-2"></i> Reserve Table
+                        <i class="fa-solid fa-calendar-check mr-2"></i> <span data-i18n="hero_btn_reserve">Reserve Table</span>
                     </a>
                 </div>
             </div>
@@ -176,7 +206,7 @@
     <section id="menu" class="py-20 bg-amber-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-black uppercase tracking-wider text-tuck-navy">Our Menu</h2>
+                <h2 class="text-4xl font-black uppercase tracking-wider text-tuck-navy" data-i18n="menu_heading">Our Menu</h2>
                 <div class="w-24 h-1 bg-tuck-red mx-auto mt-4 rounded-full"></div>
             </div>
             
@@ -191,7 +221,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <i class="fa-solid fa-star text-4xl mb-4 text-tuck-red drop-shadow-md"></i>
-                <h2 class="text-4xl font-black uppercase tracking-wider title-stroke text-white">Customer Reviews</h2>
+                <h2 class="text-4xl font-black uppercase tracking-wider title-stroke text-white" data-i18n="reviews_heading">Customer Reviews</h2>
                 <div class="w-24 h-1 bg-tuck-navy mx-auto mt-4 rounded-full"></div>
             </div>
             
@@ -244,7 +274,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                 <div class="lg:col-span-8">
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-wider text-tuck-yellow mb-6 title-stroke">Our Story</h2>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-wider text-tuck-yellow mb-6 title-stroke" data-i18n="story_heading">Our Story</h2>
                     <div class="w-24 h-1 bg-tuck-red mb-8 rounded-full"></div>
                     
                     <!-- Alternating Story Chapters -->
@@ -256,10 +286,10 @@
                             </div>
                             <div class="md:w-3/5 p-6 space-y-3">
                                 <div class="flex items-center">
-                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30">Chapter 1: The Beginning</span>
+                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30" data-i18n="ch1_label">Chapter 1: The Beginning</span>
                                 </div>
-                                <h3 class="text-xl font-black text-white">A Father's Passion</h3>
-                                <p class="text-gray-300 text-sm leading-relaxed font-medium">
+                                <h3 class="text-xl font-black text-white" data-i18n="ch1_title">A Father's Passion</h3>
+                                <p class="text-gray-300 text-sm leading-relaxed font-medium" data-i18n="ch1_text">
                                     Tuck Tuck Kee's story began decades ago in the heart of Bercham, Ipoh, with a hardworking father and a passion for serving authentic local food. What started as a humble family-operated stall gradually became a beloved gathering place for the community, known for its traditional flavors and warm hospitality.
                                 </p>
                             </div>
@@ -272,10 +302,10 @@
                             </div>
                             <div class="md:w-3/5 p-6 space-y-3">
                                 <div class="flex items-center">
-                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30">Chapter 2: The Wok</span>
+                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30" data-i18n="ch2_label">Chapter 2: The Wok</span>
                                 </div>
-                                <h3 class="text-xl font-black text-white">Learning the Craft</h3>
-                                <p class="text-gray-300 text-sm leading-relaxed font-medium">
+                                <h3 class="text-xl font-black text-white" data-i18n="ch2_title">Learning the Craft</h3>
+                                <p class="text-gray-300 text-sm leading-relaxed font-medium" data-i18n="ch2_text">
                                     From a young age, his daughter spent her days helping at the family business. She learned every aspect of the trade—from preparing fresh ingredients and serving customers to understanding the art of cooking over a hot wok. More importantly, she learned the values of dedication, consistency, and respect for every customer who visited.
                                 </p>
                             </div>
@@ -288,10 +318,10 @@
                             </div>
                             <div class="md:w-3/5 p-6 space-y-3">
                                 <div class="flex items-center">
-                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30">Chapter 3: The Secret</span>
+                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30" data-i18n="ch3_label">Chapter 3: The Secret</span>
                                 </div>
-                                <h3 class="text-xl font-black text-white">Recipes Passed Down</h3>
-                                <p class="text-gray-300 text-sm leading-relaxed font-medium">
+                                <h3 class="text-xl font-black text-white" data-i18n="ch3_title">Recipes Passed Down</h3>
+                                <p class="text-gray-300 text-sm leading-relaxed font-medium" data-i18n="ch3_text">
                                     The recipes that made Tuck Tuck Kee special were never written in books. They were carefully passed down from generation to generation, preserving the family's unique cooking methods, secret ingredients, and authentic flavors. These treasured recipes became part of the family's heritage and identity.
                                 </p>
                             </div>
@@ -304,10 +334,10 @@
                             </div>
                             <div class="md:w-3/5 p-6 space-y-3">
                                 <div class="flex items-center">
-                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30">Chapter 4: Legacy</span>
+                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30" data-i18n="ch4_label">Chapter 4: Legacy</span>
                                 </div>
-                                <h3 class="text-xl font-black text-white">Carrying the Legacy</h3>
-                                <p class="text-gray-300 text-sm leading-relaxed font-medium">
+                                <h3 class="text-xl font-black text-white" data-i18n="ch4_title">Carrying the Legacy</h3>
+                                <p class="text-gray-300 text-sm leading-relaxed font-medium" data-i18n="ch4_text">
                                     As time passed, the daughter took over the business, carrying forward the legacy her father had built. Together with her family and team, she continues to prepare every dish with the same care and commitment that customers have enjoyed for generations.
                                 </p>
                             </div>
@@ -320,13 +350,13 @@
                             </div>
                             <div class="md:w-3/5 p-6 space-y-3">
                                 <div class="flex items-center">
-                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30">Chapter 5: Today</span>
+                                    <span class="text-tuck-yellow font-black uppercase text-xs tracking-wider bg-tuck-red/20 px-2.5 py-1 rounded-full border border-tuck-red/30" data-i18n="ch5_label">Chapter 5: Today</span>
                                 </div>
-                                <h3 class="text-xl font-black text-white">Tradition Meets Community</h3>
-                                <p class="text-gray-300 text-sm leading-relaxed font-medium">
+                                <h3 class="text-xl font-black text-white" data-i18n="ch5_title">Tradition Meets Community</h3>
+                                <p class="text-gray-300 text-sm leading-relaxed font-medium" data-i18n="ch5_text">
                                     Today, Tuck Tuck Kee remains a proud family-run restaurant where tradition meets community. Families, friends, and visitors gather around the table to enjoy meals that have stood the test of time. Every dish served reflects a story of hard work, family values, and a deep respect for the culinary traditions of Ipoh.
                                 </p>
-                                <p class="text-tuck-yellow text-sm font-bold italic border-l-2 border-tuck-red pl-2 mt-2">
+                                <p class="text-tuck-yellow text-sm font-bold italic border-l-2 border-tuck-red pl-2 mt-2" data-i18n="ch5_quote">
                                     More than just a restaurant, Tuck Tuck Kee is a family legacy—one that continues to bring people together through the timeless joy of good food.
                                 </p>
                             </div>
@@ -339,37 +369,37 @@
                     <!-- Opening Hours -->
                     <div class="bg-white p-6 rounded-2xl shadow-hard border-4 border-tuck-yellow transform rotate-2 hover:rotate-0 transition-transform duration-300">
                         <h4 class="font-black text-tuck-navy uppercase mb-3 text-xl flex items-center gap-2">
-                            <i class="fa-solid fa-door-open text-tuck-red"></i> Opening Hours
+                            <i class="fa-solid fa-door-open text-tuck-red"></i> <span data-i18n="sidebar_hours">Opening Hours</span>
                         </h4>
                         <div class="flex items-center gap-3 text-gray-700 font-bold mb-2">
                             <i class="fa-regular fa-clock text-tuck-red text-xl"></i>
-                            <span>Wed – Mon (Closed Tue)</span>
+                            <span data-i18n="sidebar_days">Wed – Mon (Closed Tue)</span>
                         </div>
                         <p class="text-tuck-navy font-black text-lg ml-8">2:00 PM – 11:00 PM</p>
                     </div>
 
                     <!-- Our Promise Badges -->
                     <div class="bg-tuck-yellow p-6 rounded-2xl shadow-hard border-4 border-tuck-navy transform -rotate-1 hover:rotate-0 transition-transform duration-300">
-                        <h4 class="font-black text-tuck-navy uppercase mb-4 text-lg">Our Promise</h4>
+                        <h4 class="font-black text-tuck-navy uppercase mb-4 text-lg" data-i18n="sidebar_promise">Our Promise</h4>
                         <div class="space-y-3">
                             <div class="flex items-center gap-3 text-tuck-navy font-black text-sm">
                                 <i class="fa-solid fa-check-double text-tuck-red text-lg"></i>
-                                <span>Passed Down Family Recipes</span>
+                                <span data-i18n="promise1">Passed Down Family Recipes</span>
                             </div>
                             <div class="flex items-center gap-3 text-tuck-navy font-black text-sm">
                                 <i class="fa-solid fa-fire text-tuck-red text-lg"></i>
-                                <span>Legendary Wok Hei Taste</span>
+                                <span data-i18n="promise2">Legendary Wok Hei Taste</span>
                             </div>
                             <div class="flex items-center gap-3 text-tuck-navy font-black text-sm">
                                 <i class="fa-solid fa-heart text-tuck-red text-lg"></i>
-                                <span>Warm Family Hospitality</span>
+                                <span data-i18n="promise3">Warm Family Hospitality</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Quick Reservation Callout -->
                     <a href="#reservation" class="block text-center bg-tuck-red hover:bg-red-700 text-white font-black uppercase py-4 rounded-xl shadow-hard border-2 border-tuck-navy transition-transform hover:-translate-y-1 active:translate-y-0 active:shadow-none duration-300">
-                        <i class="fa-solid fa-calendar-check mr-2"></i> Book A Table Now
+                        <i class="fa-solid fa-calendar-check mr-2"></i> <span data-i18n="sidebar_book">Book A Table Now</span>
                     </a>
                 </div>
             </div>
@@ -380,20 +410,20 @@
     <section id="reservation" class="py-20 bg-amber-50">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-10">
-                <h2 class="text-4xl font-black uppercase tracking-wide text-tuck-navy mb-4">Book A Table</h2>
-                <p class="text-gray-600 font-medium">Secure your spot for an authentic street dining experience.</p>
+                <h2 class="text-4xl font-black uppercase tracking-wide text-tuck-navy mb-4" data-i18n="res_heading">Book A Table</h2>
+                <p class="text-gray-600 font-medium" data-i18n="res_subheading">Secure your spot for an authentic street dining experience.</p>
             </div>
 
             <!-- Reservation Form -->
             <div class="bg-white p-8 rounded-2xl shadow-hard border-4 border-tuck-navy relative">
                 <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-tuck-yellow text-tuck-navy font-black px-6 py-2 border-2 border-tuck-navy shadow-sm rounded-full uppercase tracking-wider whitespace-nowrap">
-                    Reserve Your Table
+                    <span data-i18n="res_label">Reserve Your Table</span>
                 </div>
                 
                 <form id="reservation-form" class="space-y-4 mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Your Name</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_name">Your Name</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-regular fa-user text-gray-400"></i>
@@ -402,7 +432,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Phone Number</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_phone">Phone Number</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-solid fa-phone text-gray-400"></i>
@@ -414,7 +444,7 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Date</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_date">Date</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-regular fa-calendar text-gray-400"></i>
@@ -423,7 +453,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Time</label>
+                                <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_time">Time</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fa-regular fa-clock text-gray-400"></i>
@@ -434,7 +464,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Number of Guests</label>
+                            <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_guests">Number of Guests</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <i class="fa-solid fa-users text-gray-400"></i>
@@ -454,7 +484,7 @@
                         </div>
 
                         <button type="button" onclick="triggerWhatsAppReservation()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black uppercase py-4 rounded-xl shadow-hard-sm transition-transform active:translate-y-1 active:shadow-none flex items-center justify-center gap-2 border-2 border-tuck-navy mt-4">
-                            <i class="fa-brands fa-whatsapp text-xl"></i> Book via WhatsApp
+                            <i class="fa-brands fa-whatsapp text-xl"></i> <span data-i18n="res_btn">Book via WhatsApp</span>
                         </button>
                     </form>
                 </div>
@@ -469,7 +499,7 @@
                 
                 <!-- Contact Details -->
                 <div>
-                    <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest">Contact Us</h3>
+                    <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest" data-i18n="footer_contact">Contact Us</h3>
                     <ul class="space-y-4 text-gray-300 font-medium">
                         <li class="flex items-start gap-3">
                             <i class="fa-solid fa-location-dot mt-1 text-tuck-red text-lg"></i>
@@ -488,8 +518,8 @@
 
                 <!-- Dine-in QR Code Info -->
                 <div>
-                    <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest">Scan & Order</h3>
-                    <p class="text-gray-300 mb-4 font-medium">Dining with us? Scan the QR code at your table to place your order directly via WhatsApp.</p>
+                    <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest" data-i18n="footer_scan">Scan & Order</h3>
+                    <p class="text-gray-300 mb-4 font-medium" data-i18n="footer_scan_desc">Dining with us? Scan the QR code at your table to place your order directly via WhatsApp.</p>
                     <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/20 backdrop-blur-sm max-w-xs">
                         <div class="bg-white p-2 rounded-lg flex-shrink-0">
                             <i class="fa-solid fa-qrcode text-tuck-navy text-5xl"></i>
@@ -1074,23 +1104,181 @@
         window.showToast = function(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            
             const bgColor = type === 'error' ? 'bg-tuck-red' : 'bg-tuck-navy';
             const icon = type === 'error' ? 'fa-circle-xmark' : 'fa-circle-check';
             const textColor = type === 'error' ? 'text-white' : 'text-tuck-yellow';
-
             toast.className = `${bgColor} text-white px-6 py-4 rounded-xl shadow-hard border-2 border-white flex items-center gap-3 toast-enter font-bold`;
             toast.innerHTML = `<i class="fa-solid ${icon} ${textColor} text-xl"></i> <span>${message}</span>`;
-            
             container.appendChild(toast);
-            
             setTimeout(() => {
                 toast.classList.replace('toast-enter', 'toast-exit');
-                setTimeout(() => {
-                    if (container.contains(toast)) container.removeChild(toast);
-                }, 300);
+                setTimeout(() => { if (container.contains(toast)) container.removeChild(toast); }, 300);
             }, 3000);
         }
+
+        // --- 9. i18n TRANSLATION ENGINE ---
+        const translations = {
+            en: {
+                nav_home: 'Home', nav_about: 'About Us', nav_menu: 'Menu', nav_reviews: 'Reviews', nav_contact: 'Contact', nav_order: 'Order Now',
+                hero_title1: 'Fresh Octopus,', hero_title2: 'Authentic Wok Hei!',
+                hero_desc: "Savor the freshest seafood and legendary noodles cooked with our signature recipes and street-side passion. A taste of real Ipoh you won't forget!",
+                hero_btn_menu: 'View Menu', hero_btn_reserve: 'Reserve Table',
+                menu_heading: 'Our Menu', reviews_heading: 'Customer Reviews', story_heading: 'Our Story',
+                ch1_label: 'Chapter 1: The Beginning', ch1_title: "A Father's Passion",
+                ch1_text: "Tuck Tuck Kee's story began decades ago in the heart of Bercham, Ipoh, with a hardworking father and a passion for serving authentic local food. What started as a humble family-operated stall gradually became a beloved gathering place for the community, known for its traditional flavors and warm hospitality.",
+                ch2_label: 'Chapter 2: The Wok', ch2_title: 'Learning the Craft',
+                ch2_text: 'From a young age, his daughter spent her days helping at the family business. She learned every aspect of the trade—from preparing fresh ingredients and serving customers to understanding the art of cooking over a hot wok. More importantly, she learned the values of dedication, consistency, and respect for every customer who visited.',
+                ch3_label: 'Chapter 3: The Secret', ch3_title: 'Recipes Passed Down',
+                ch3_text: "The recipes that made Tuck Tuck Kee special were never written in books. They were carefully passed down from generation to generation, preserving the family's unique cooking methods, secret ingredients, and authentic flavors. These treasured recipes became part of the family's heritage and identity.",
+                ch4_label: 'Chapter 4: Legacy', ch4_title: 'Carrying the Legacy',
+                ch4_text: "As time passed, the daughter took over the business, carrying forward the legacy her father had built. Together with her family and team, she continues to prepare every dish with the same care and commitment that customers have enjoyed for generations.",
+                ch5_label: 'Chapter 5: Today', ch5_title: 'Tradition Meets Community',
+                ch5_text: "Today, Tuck Tuck Kee remains a proud family-run restaurant where tradition meets community. Families, friends, and visitors gather around the table to enjoy meals that have stood the test of time. Every dish served reflects a story of hard work, family values, and a deep respect for the culinary traditions of Ipoh.",
+                ch5_quote: 'More than just a restaurant, Tuck Tuck Kee is a family legacy—one that continues to bring people together through the timeless joy of good food.',
+                sidebar_hours: 'Opening Hours', sidebar_days: 'Wed – Mon (Closed Tue)', sidebar_promise: 'Our Promise',
+                promise1: 'Passed Down Family Recipes', promise2: 'Legendary Wok Hei Taste', promise3: 'Warm Family Hospitality',
+                sidebar_book: 'Book A Table Now',
+                res_heading: 'Book A Table', res_subheading: 'Secure your spot for an authentic street dining experience.',
+                res_label: 'Reserve Your Table', res_name: 'Your Name', res_phone: 'Phone Number', res_date: 'Date', res_time: 'Time', res_guests: 'Number of Guests', res_btn: 'Book via WhatsApp',
+                footer_contact: 'Contact Us', footer_scan: 'Scan & Order', footer_scan_desc: 'Dining with us? Scan the QR code at your table to place your order directly via WhatsApp.',
+            },
+            zh: {
+                nav_home: '首页', nav_about: '关于我们', nav_menu: '菜单', nav_reviews: '评价', nav_contact: '联系我们', nav_order: '立即点餐',
+                hero_title1: '新鲜章鱼，', hero_title2: '正宗镬气！',
+                hero_desc: '品尝最新鲜的海鲜与传奇炒面，以家传秘方烹调，充满路边摊的热情。这是真正的怡保味道，让您念念不忘！',
+                hero_btn_menu: '查看菜单', hero_btn_reserve: '预订座位',
+                menu_heading: '我们的菜单', reviews_heading: '顾客评价', story_heading: '我们的故事',
+                ch1_label: '第一章：起源', ch1_title: '父亲的热情',
+                ch1_text: 'Tuck Tuck Kee 的故事始于数十年前怡保的Bercham，一位勤劳的父亲对提供正宗本地美食充满热情。最初只是一个小家庭摊位，逐渐成为社区深爱的聚集地，以传统风味和温暖待客之道著称。',
+                ch2_label: '第二章：炒锅', ch2_title: '学习手艺',
+                ch2_text: '从小，他的女儿就在家族生意里帮忙，学习了各方面的技艺——从准备新鲜食材、服务顾客到掌握热锅炒菜的艺术。更重要的是，她学到了敬业、坚持以及尊重每位顾客的精神。',
+                ch3_label: '第三章：秘方', ch3_title: '世代传承的食谱',
+                ch3_text: '让Tuck Tuck Kee与众不同的食谱从未被写进书中。它们是世代相传的，保留了家族独特的烹饪方法、秘密食材和正宗风味，成为家族的传承与认同。',
+                ch4_label: '第四章：传承', ch4_title: '继承衣钵',
+                ch4_text: '随着时间流逝，女儿接管了这门生意，将父亲建立的遗产传承下去。与家人和团队携手，她继续以几代顾客所珍爱的用心与承诺烹调每一道菜。',
+                ch5_label: '第五章：今日', ch5_title: '传统融合社区',
+                ch5_text: '如今，Tuck Tuck Kee 仍是一家传统与社区融合的家庭式餐厅。家人、朋友和访客聚在餐桌旁，享用经得起时间考验的美食。每道菜都承载着努力、家庭价值和对怡保饮食传统的深深敬意。',
+                ch5_quote: '不仅仅是一家餐厅，Tuck Tuck Kee 是一份家族遗产——它将继续通过美食的永恒喜悦将人们聚集在一起。',
+                sidebar_hours: '营业时间', sidebar_days: '周三 – 周一（周二休息）', sidebar_promise: '我们的承诺',
+                promise1: '世代相传的家族食谱', promise2: '传奇镬气味道', promise3: '温馨家庭待客之道',
+                sidebar_book: '立即预订座位',
+                res_heading: '预订座位', res_subheading: '保留您的位置，享受正宗的路边餐饮体验。',
+                res_label: '预订您的座位', res_name: '您的姓名', res_phone: '电话号码', res_date: '日期', res_time: '时间', res_guests: '用餐人数', res_btn: '通过 WhatsApp 预订',
+                footer_contact: '联系我们', footer_scan: '扫码点餐', footer_scan_desc: '在我们餐厅用餐？扫描桌上的二维码，直接通过 WhatsApp 下单。',
+            },
+            ja: {
+                nav_home: 'ホーム', nav_about: '私たちについて', nav_menu: 'メニュー', nav_reviews: 'レビュー', nav_contact: 'お問い合わせ', nav_order: '今すぐ注文',
+                hero_title1: '新鮮なタコ、', hero_title2: '本格ウォックヘイ！',
+                hero_desc: '自家製レシピと路地裏の情熱で調理された、最高に新鮮な海鮮と伝説の麺料理をご堪能ください。忘れられないイポーの味をお届けします！',
+                hero_btn_menu: 'メニューを見る', hero_btn_reserve: 'テーブルを予約',
+                menu_heading: '私たちのメニュー', reviews_heading: 'お客様のレビュー', story_heading: '私たちの物語',
+                ch1_label: '第1章：始まり', ch1_title: '父の情熱',
+                ch1_text: 'タック・タック・キーの物語は数十年前、イポーのベルチャムの中心で、勤勉な父親と本物の地元料理への情熱から始まりました。小さな家族経営の屋台として始まったものが、伝統的な味と温かいおもてなしで知られる、地域の愛されるコミュニティの場へと成長していきました。',
+                ch2_label: '第2章：炒め鍋', ch2_title: '技を学ぶ',
+                ch2_text: '幼い頃から、娘は家業を手伝いながら、新鮮な食材の準備、お客様へのサービス、熱い炒め鍋での調理の技術まで、業務のあらゆる側面を学びました。さらに重要なのは、献身・一貫性・すべてのお客様への敬意という価値観を身に付けたことです。',
+                ch3_label: '第3章：秘伝', ch3_title: '受け継がれるレシピ',
+                ch3_text: 'タック・タック・キーを特別にしてきたレシピは、決して本に書かれることはありませんでした。それらは世代から世代へと丁寧に受け継がれ、家族独自の調理法、秘密の食材、そして本物の風味が保存されてきました。',
+                ch4_label: '第4章：遺産', ch4_title: '遺産を受け継ぐ',
+                ch4_text: '時が経つにつれ、娘が事業を引き継ぎ、父が築いた遺産を受け継ぎました。家族とチームとともに、何世代もの間お客様に愛されてきた同じ丁寧さと誠意で、引き続きすべての料理を作り続けています。',
+                ch5_label: '第5章：現在', ch5_title: '伝統とコミュニティの融合',
+                ch5_text: '今日、タック・タック・キーは伝統とコミュニティが出会う誇り高き家族経営のレストランであり続けています。家族や友人、訪問者がテーブルを囲み、時代を超えた食事を楽しんでいます。',
+                ch5_quote: 'ただのレストランではなく、タック・タック・キーは家族の遺産です——美食の永遠の喜びを通じて、人々をつなぎ続けています。',
+                sidebar_hours: '営業時間', sidebar_days: '水～月（火曜定休）', sidebar_promise: '私たちの約束',
+                promise1: '世代から受け継がれた家族のレシピ', promise2: '伝説のウォックヘイの味', promise3: '温かい家族のおもてなし',
+                sidebar_book: '今すぐ予約する',
+                res_heading: 'テーブルを予約', res_subheading: '本格的な路地裏ダイニング体験のためにお席を確保してください。',
+                res_label: 'テーブルを予約する', res_name: 'お名前', res_phone: '電話番号', res_date: '日付', res_time: '時間', res_guests: 'ゲスト人数', res_btn: 'WhatsAppで予約',
+                footer_contact: 'お問い合わせ', footer_scan: 'スキャン＆注文', footer_scan_desc: '食事中ですか？テーブルのQRコードをスキャンして、WhatsAppで直接ご注文ください。',
+            },
+            ms: {
+                nav_home: 'Laman Utama', nav_about: 'Tentang Kami', nav_menu: 'Menu', nav_reviews: 'Ulasan', nav_contact: 'Hubungi', nav_order: 'Pesan Sekarang',
+                hero_title1: 'Sotong Segar,', hero_title2: 'Wok Hei Asli!',
+                hero_desc: 'Nikmati hidangan laut paling segar dan mi legenda yang dimasak dengan resipi istimewa kami dan semangat tepi jalan. Rasa Ipoh sebenar yang tidak akan anda lupakan!',
+                hero_btn_menu: 'Lihat Menu', hero_btn_reserve: 'Tempah Meja',
+                menu_heading: 'Menu Kami', reviews_heading: 'Ulasan Pelanggan', story_heading: 'Kisah Kami',
+                ch1_label: 'Bab 1: Permulaan', ch1_title: 'Semangat Seorang Bapa',
+                ch1_text: 'Kisah Tuck Tuck Kee bermula beberapa dekad lalu di jantung Bercham, Ipoh, dengan seorang bapa yang rajin dan penuh semangat untuk menyajikan makanan tempatan yang asli. Apa yang bermula sebagai gerai keluarga yang sederhana beransur-ansur menjadi tempat perhimpunan masyarakat yang disayangi, terkenal dengan cita rasa tradisional dan keramahan yang mesra.',
+                ch2_label: 'Bab 2: Kuali', ch2_title: 'Mempelajari Kemahiran',
+                ch2_text: 'Sejak kecil, anak perempuannya menghabiskan masa membantu di perniagaan keluarga. Beliau mempelajari setiap aspek perniagaan—daripada menyediakan bahan-bahan segar dan melayan pelanggan hinggalah memahami seni memasak di atas kuali panas.',
+                ch3_label: 'Bab 3: Rahsia', ch3_title: 'Resipi Warisan',
+                ch3_text: 'Resipi yang menjadikan Tuck Tuck Kee istimewa tidak pernah ditulis dalam buku. Resipi tersebut diwariskan dengan teliti dari generasi ke generasi, memelihara kaedah memasak unik keluarga, bahan-bahan rahsia, dan cita rasa asli yang menjadi warisan dan identiti keluarga.',
+                ch4_label: 'Bab 4: Warisan', ch4_title: 'Meneruskan Warisan',
+                ch4_text: 'Apabila masa berlalu, anak perempuannya mengambil alih perniagaan, meneruskan warisan yang dibina oleh bapanya. Bersama keluarga dan pasukan, beliau terus menyediakan setiap hidangan dengan penuh keperihatinan dan komitmen yang telah dinikmati oleh pelanggan selama bergenerasi.',
+                ch5_label: 'Bab 5: Hari Ini', ch5_title: 'Tradisi Bertemu Komuniti',
+                ch5_text: 'Hari ini, Tuck Tuck Kee kekal sebagai restoran keluarga yang bangga di mana tradisi bertemu komuniti. Keluarga, rakan-rakan, dan pengunjung berkumpul di meja untuk menikmati hidangan yang telah menempuh ujian masa.',
+                ch5_quote: 'Lebih daripada sekadar restoran, Tuck Tuck Kee adalah warisan keluarga—yang terus menyatukan orang ramai melalui kegembiraan makanan yang baik.',
+                sidebar_hours: 'Waktu Operasi', sidebar_days: 'Rabu – Isnin (Tutup Selasa)', sidebar_promise: 'Janji Kami',
+                promise1: 'Resipi Keluarga Warisan Turun-temurun', promise2: 'Cita Rasa Wok Hei Legenda', promise3: 'Keramahan Keluarga yang Mesra',
+                sidebar_book: 'Tempah Meja Sekarang',
+                res_heading: 'Tempah Meja', res_subheading: 'Pastikan tempat anda untuk pengalaman makan tepi jalan yang asli.',
+                res_label: 'Tempah Meja Anda', res_name: 'Nama Anda', res_phone: 'Nombor Telefon', res_date: 'Tarikh', res_time: 'Masa', res_guests: 'Bilangan Tetamu', res_btn: 'Tempah melalui WhatsApp',
+                footer_contact: 'Hubungi Kami', footer_scan: 'Imbas & Pesan', footer_scan_desc: 'Makan di sini? Imbas kod QR di meja anda untuk membuat pesanan terus melalui WhatsApp.',
+            }
+        };
+
+        let currentLang = 'en';
+
+        window.setLanguage = function(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            if (!t) return;
+
+            // Update all data-i18n elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+
+            // Update lang label
+            const labels = { en: 'EN', zh: '中文', ja: '日本語', ms: 'MS' };
+            const langLabel = document.getElementById('lang-label');
+            if (langLabel) langLabel.textContent = labels[lang];
+
+            // Update active state on desktop buttons
+            ['en','zh','ja','ms'].forEach(l => {
+                const btn = document.getElementById(`lang-btn-${l}`);
+                const mobBtn = document.getElementById(`mob-lang-btn-${l}`);
+                if (btn) btn.classList.toggle('active', l === lang);
+                if (mobBtn) {
+                    mobBtn.style.color = l === lang ? '#ffcc00' : '';
+                    mobBtn.style.borderColor = l === lang ? '#ffcc00' : '';
+                }
+            });
+
+            // Close menu
+            const menu = document.getElementById('lang-menu');
+            if (menu) document.getElementById('lang-switcher').classList.remove('open');
+
+            // Save preference
+            try { localStorage.setItem('ttk_lang', lang); } catch(e) {}
+        };
+
+        window.toggleLangMenu = function() {
+            document.getElementById('lang-switcher').classList.toggle('open');
+        };
+
+        // Close lang menu on outside click
+        document.addEventListener('click', function(e) {
+            const switcher = document.getElementById('lang-switcher');
+            if (switcher && !switcher.contains(e.target)) {
+                switcher.classList.remove('open');
+            }
+        });
+
+        // Auto-detect language on load
+        document.addEventListener('DOMContentLoaded', function() {
+            let saved;
+            try { saved = localStorage.getItem('ttk_lang'); } catch(e) {}
+            if (saved && translations[saved]) {
+                setLanguage(saved);
+            } else {
+                const browserLang = navigator.language.toLowerCase();
+                if (browserLang.startsWith('zh')) setLanguage('zh');
+                else if (browserLang.startsWith('ja')) setLanguage('ja');
+                else if (browserLang.startsWith('ms') || browserLang.startsWith('id')) setLanguage('ms');
+                else setLanguage('en');
+            }
+        });
     </script>
 </body>
 </html>
