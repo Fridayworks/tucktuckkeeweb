@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuck Tuck Kee's Octopus | Authentic Street Dining</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'tuck-yellow': '#ffcc00',
+                        'tuck-navy': '#0f172a',
+                        'tuck-red': '#dc2626',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Styles for Street Vibe */
+        .text-stroke {
+            -webkit-text-stroke: 1px #0f172a;
+            color: #ffcc00;
+        }
+        .title-stroke {
+            -webkit-text-stroke: 2px #0f172a;
+        }
+        .shadow-hard {
+            box-shadow: 6px 6px 0px 0px rgba(15,23,42,1);
+        }
+        .shadow-hard-sm {
+            box-shadow: 3px 3px 0px 0px rgba(15,23,42,1);
+        }
+        
+        /* Hide scrollbar for carousel but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Custom scrollbar for cart */
+        .cart-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .cart-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        /* Toast Animation */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .toast-enter { animation: slideIn 0.3s ease-out forwards; }
+        .toast-exit { animation: fadeOut 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-amber-50 text-gray-800 font-sans pt-20 flex flex-col min-h-screen">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 top-0 bg-tuck-navy border-b-4 border-tuck-red transition-all duration-300 shadow-xl" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-fire-burner text-tuck-yellow text-3xl"></i>
+                        <div>
+                            <h1 class="text-white font-black text-xl leading-tight tracking-wider uppercase">Tuck Tuck Kee's</h1>
+                            <p class="text-tuck-yellow text-sm font-bold tracking-widest"><i class="fa-solid fa-arrow-right text-xs"></i> OCTOPUS <i class="fa-solid fa-arrow-left text-xs"></i></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Home</a>
+                    <a href="#about" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">About Us</a>
+                    <a href="#menu" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Menu</a>
+                    <a href="#reviews" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Reviews</a>
+                    <a href="#contact" class="text-white hover:text-tuck-yellow font-bold uppercase transition-colors">Contact</a>
+                    
+                    <!-- Cart Button -->
+                    <button onclick="toggleCart()" class="relative bg-tuck-yellow hover:bg-yellow-400 text-tuck-navy px-5 py-2 rounded-lg font-black uppercase shadow-hard-sm transition-transform active:translate-y-1 active:shadow-none flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping"></i> Order Now
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-tuck-red text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-tuck-navy hidden">0</span>
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center gap-4">
+                    <button onclick="toggleCart()" class="relative text-tuck-yellow text-2xl">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <span id="mobile-cart-count" class="absolute -top-2 -right-2 bg-tuck-red text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-tuck-navy hidden">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-tuck-yellow hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="md:hidden hidden bg-tuck-navy border-t border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#home" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Home</a>
+                <a href="#about" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">About Us</a>
+                <a href="#menu" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Menu</a>
+                <a href="#reviews" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Reviews</a>
+                <a href="#contact" class="block px-3 py-2 text-white font-bold uppercase hover:bg-gray-800 rounded-md">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative bg-tuck-navy overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- Using local image path -->
+            <img src="images/banner-octopus_2.jpg" onerror="this.src='https://placehold.co/1920x1080/0f172a/ffcc00?text=Tuck+Tuck+Kee+Street+Dining'" alt="Tuck Tuck Kee Banner" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-r from-tuck-navy via-tuck-navy/80 to-transparent"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-24 md:py-32 flex flex-col md:flex-row items-center">
+            <div class="md:w-3/5 text-center md:text-left">
+                <h2 class="text-5xl md:text-7xl font-black text-white leading-tight mb-4 title-stroke">
+                    Fresh Octopus,<br>
+                    <span class="text-tuck-yellow title-stroke">Authentic Wok Hei!</span>
+                </h2>
+                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-lg mx-auto md:mx-0 font-medium border-l-4 border-tuck-red pl-4">
+                    Savor the freshest seafood and legendary noodles cooked with our signature recipes and street-side passion. A taste of real Ipoh you won't forget!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#menu" class="bg-tuck-yellow text-tuck-navy px-8 py-4 rounded-xl font-black uppercase text-lg shadow-hard transition-transform hover:-translate-y-1 active:translate-y-1 active:shadow-none text-center">
+                        <i class="fa-solid fa-book-open mr-2"></i> View Menu
+                    </a>
+                    <a href="#reservation" class="bg-transparent border-4 border-tuck-yellow text-tuck-yellow px-8 py-4 rounded-xl font-black uppercase text-lg hover:bg-tuck-yellow hover:text-tuck-navy transition-colors text-center">
+                        <i class="fa-solid fa-calendar-check mr-2"></i> Reserve Table
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative bottom wave -->
+        <div class="absolute bottom-0 w-full leading-none">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-12 md:h-24 fill-amber-50">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,121.32,201.39,109.11,242.41,102.05,282.72,81.42,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="py-20 bg-amber-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black uppercase tracking-wider text-tuck-navy">Our Menu</h2>
+                <div class="w-24 h-1 bg-tuck-red mx-auto mt-4 rounded-full"></div>
+            </div>
+            
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Menu items injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section id="reviews" class="py-20 bg-tuck-yellow text-tuck-navy border-b-4 border-tuck-navy">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <i class="fa-solid fa-star text-4xl mb-4 text-tuck-red drop-shadow-md"></i>
+                <h2 class="text-4xl font-black uppercase tracking-wider title-stroke text-white">Customer Reviews</h2>
+                <div class="w-24 h-1 bg-tuck-navy mx-auto mt-4 rounded-full"></div>
+            </div>
+            
+            <!-- Authentic Reviews -->
+            <div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-hard border-2 border-tuck-navy relative">
+                        <div class="absolute -top-4 -right-4 bg-tuck-yellow text-tuck-navy border-2 border-tuck-navy rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-quote-right"></i>
+                        </div>
+                        <div class="flex items-center gap-1 text-tuck-red mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-4 font-medium">"I've ordered kuey teow basah and it was too delicious. Overall is good 👍🏻. Recommended."</p>
+                        <p class="font-black text-sm text-tuck-navy">- Devesuria (Foodpanda)</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-hard border-2 border-tuck-navy relative">
+                        <div class="absolute -top-4 -right-4 bg-tuck-yellow text-tuck-navy border-2 border-tuck-navy rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-quote-right"></i>
+                        </div>
+                        <div class="flex items-center gap-1 text-tuck-red mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-4 font-medium">"Try their signature dishes like wah dan hor and black pepper fish noodles. Generous portions at affordable prices. Great value for money."</p>
+                        <p class="font-black text-sm text-tuck-navy">- Local Guide (Google Maps)</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-hard border-2 border-tuck-navy relative">
+                        <div class="absolute -top-4 -right-4 bg-tuck-yellow text-tuck-navy border-2 border-tuck-navy rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-quote-right"></i>
+                        </div>
+                        <div class="flex items-center gap-1 text-tuck-red mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-4 font-medium">"friendly, on time. sedap and big portion. nice food. real wok hei!"</p>
+                        <p class="font-black text-sm text-tuck-navy">- Multiple Diners</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT US SECTION -->
+    <section id="about" class="relative py-24 bg-tuck-navy border-b-4 border-tuck-navy">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="images/ttkbg.png" alt="Tuck Tuck Kee Background" class="w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-r from-tuck-navy via-tuck-navy/90 to-tuck-navy/60"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-8">
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-wider text-tuck-yellow mb-6 title-stroke">Our Story</h2>
+                    <div class="w-24 h-1 bg-tuck-red mb-8 rounded-full"></div>
+                    
+                    <div class="space-y-6 text-gray-200 text-lg leading-relaxed font-medium">
+                        <p>
+                            Nestled in the vibrant culinary landscape of Ipoh, <span class="text-white font-bold">Tuck Tuck Kee</span> has grown from a humble street stall into a beloved local institution, renowned for serving the most authentic "dai chow" (big fry-up) experience. Our story began decades ago with a simple wok, roaring flames, and a passion for bringing people together over honest, mouth-watering food.
+                        </p>
+                        <p>
+                            We are famous for our signature octopus dishes—prepared with a closely guarded family technique that ensures every bite is perfectly tender, yet satisfyingly crunchy. But our true soul lies in the art of <strong class="text-tuck-yellow">'wok hei'</strong>—the breath of the wok. Our experienced chefs masterfully control fierce flames to infuse our Moon River Kuey Teow, Wa Tan Hor, and Hokkien Noodles with that unmistakable, smoky caramelization that you can only find in true Malaysian street food.
+                        </p>
+                        <p>
+                            At Tuck Tuck Kee, we believe in preserving the traditional roadside dining atmosphere. Here, under the open sky and the buzz of the city, friends and families gather around simple tables to share generous portions, hearty laughs, and unforgettable flavors. Every dish we serve is a tribute to Ipoh's rich culinary heritage.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Opening Hours Highlight -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-hard border-4 border-tuck-yellow transform rotate-2 hover:rotate-0 transition-transform">
+                        <h4 class="font-black text-tuck-navy uppercase mb-3 text-xl">Opening Hours</h4>
+                        <div class="flex items-center gap-3 text-gray-700 font-bold mb-2">
+                            <i class="fa-regular fa-clock text-tuck-red text-xl"></i>
+                            <span>Wed – Mon (Closed Tue)</span>
+                        </div>
+                        <p class="text-tuck-navy font-black text-lg ml-8">2:00 PM – 11:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESERVATION SECTION -->
+    <section id="reservation" class="py-20 bg-amber-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-black uppercase tracking-wide text-tuck-navy mb-4">Book A Table</h2>
+                <p class="text-gray-600 font-medium">Secure your spot for an authentic street dining experience.</p>
+            </div>
+
+            <!-- Reservation Form -->
+            <div class="bg-white p-8 rounded-2xl shadow-hard border-4 border-tuck-navy relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-tuck-yellow text-tuck-navy font-black px-6 py-2 border-2 border-tuck-navy shadow-sm rounded-full uppercase tracking-wider whitespace-nowrap">
+                    Reserve Your Table
+                </div>
+                
+                <form id="reservation-form" class="space-y-4 mt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Your Name</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-regular fa-user text-gray-400"></i>
+                                    </div>
+                                    <input type="text" id="res-name" required class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium" placeholder="John Doe">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Phone Number</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-solid fa-phone text-gray-400"></i>
+                                    </div>
+                                    <input type="tel" id="res-phone" required class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium" placeholder="01X-XXXXXXX">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Date</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-regular fa-calendar text-gray-400"></i>
+                                    </div>
+                                    <input type="date" id="res-date" required class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Time</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fa-regular fa-clock text-gray-400"></i>
+                                    </div>
+                                    <input type="time" id="res-time" required class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Number of Guests</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-users text-gray-400"></i>
+                                </div>
+                                <select id="res-guests" class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium appearance-none">
+                                    <option value="1">1 Person</option>
+                                    <option value="2" selected>2 People</option>
+                                    <option value="3">3 People</option>
+                                    <option value="4">4 People</option>
+                                    <option value="5">5 People</option>
+                                    <option value="6+">6+ People</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="triggerWhatsAppReservation()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black uppercase py-4 rounded-xl shadow-hard-sm transition-transform active:translate-y-1 active:shadow-none flex items-center justify-center gap-2 border-2 border-tuck-navy mt-4">
+                            <i class="fa-brands fa-whatsapp text-xl"></i> Book via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-tuck-navy pt-16 pb-8 border-t-4 border-tuck-red text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12 border-b border-gray-700 pb-12">
+                
+                <!-- Contact Details -->
+                <div>
+                    <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest">Contact Us</h3>
+                    <ul class="space-y-4 text-gray-300 font-medium">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-tuck-red text-lg"></i>
+                            <span>23, Persiaran Medan Bercham 5,<br>Pusat Bandar Baru, 31400<br>Ipoh, Perak, Malaysia.</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-brands fa-whatsapp text-green-500 text-lg"></i>
+                            <span class="font-bold text-white text-lg">016-506 5983</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-regular fa-envelope text-tuck-red text-lg"></i>
+                            <span>tucktuckkees@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Delivery Links -->
+                <div>
+                    <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest">Delivery Partners</h3>
+                    <p class="text-gray-300 mb-4 font-medium">Also available on major platforms.</p>
+                    <div class="flex flex-col gap-3">
+                        <a href="#" class="bg-[#d70f64] hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center gap-2 w-max transition-colors">
+                            <i class="fa-solid fa-motorcycle"></i> Foodpanda
+                        </a>
+                        <a href="#" class="bg-[#00b14f] hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center gap-2 w-max transition-colors">
+                            <i class="fa-solid fa-motorcycle"></i> GrabFood
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 font-medium">
+                <p>&copy; 2026 Tuck Tuck Kee's Octopus. All Rights Reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-tuck-yellow transition-colors">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-tuck-yellow transition-colors">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <!-- OVERLAY -->
+    <div id="modal-overlay" class="fixed inset-0 bg-tuck-navy/70 z-[60] hidden backdrop-blur-sm transition-opacity" onclick="closeAllModals()"></div>
+
+    <!-- CUSTOMIZER MODAL -->
+    <div id="customizer-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl z-[70] w-11/12 max-w-md hidden shadow-hard border-4 border-tuck-navy overflow-hidden flex flex-col max-h-[90vh]">
+        <!-- Header -->
+        <div class="bg-tuck-navy p-4 text-white flex justify-between items-center relative">
+            <h3 class="font-black text-xl uppercase tracking-wider truncate pr-8" id="cust-title">Item Name</h3>
+            <button onclick="closeAllModals()" class="text-gray-300 hover:text-white absolute right-4 top-1/2 -translate-y-1/2">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Scrollable content -->
+        <div class="p-6 overflow-y-auto cart-scroll flex-grow">
+            <!-- Price Display -->
+            <div class="flex justify-between items-center bg-gray-100 p-4 rounded-xl border border-gray-300 mb-6">
+                <span class="font-bold text-gray-600 uppercase text-sm">Base Price</span>
+                <span class="font-black text-xl text-tuck-red" id="cust-price">RM 0.00</span>
+            </div>
+
+            <!-- Size Selection -->
+            <div class="mb-6" id="size-section">
+                <h4 class="font-black text-tuck-navy uppercase mb-3 text-sm flex justify-between">
+                    <span>Choose Size</span>
+                    <span class="text-tuck-red">*Required</span>
+                </h4>
+                <div class="space-y-3">
+                    <label class="flex items-center justify-between p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-tuck-yellow hover:bg-yellow-50 transition-colors custom-radio-wrapper">
+                        <div class="flex items-center gap-3">
+                            <input type="radio" name="size" value="Medium (Regular)" checked class="w-5 h-5 text-tuck-yellow focus:ring-tuck-yellow" onchange="updateCustPrice()">
+                            <span class="font-bold text-gray-800">Medium (Regular)</span>
+                        </div>
+                        <span class="font-bold text-gray-500" id="cust-med-price">+ RM 0.00</span>
+                    </label>
+                    <label class="flex items-center justify-between p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-tuck-yellow hover:bg-yellow-50 transition-colors custom-radio-wrapper">
+                        <div class="flex items-center gap-3">
+                            <input type="radio" name="size" value="Large (Big)" class="w-5 h-5 text-tuck-yellow focus:ring-tuck-yellow" onchange="updateCustPrice()">
+                            <span class="font-bold text-gray-800">Large (Big)</span>
+                        </div>
+                        <span class="font-bold text-tuck-red" id="cust-lrg-price">RM 22.00</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Kitchen Note -->
+            <div>
+                <h4 class="font-black text-tuck-navy uppercase mb-3 text-sm">Kitchen Note (Optional)</h4>
+                <textarea id="cust-note" rows="2" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:outline-none focus:border-tuck-navy focus:bg-gray-50 font-medium text-sm" placeholder="e.g., Less spicy, no spring onions..."></textarea>
+            </div>
+        </div>
+
+        <!-- Footer / Add Button -->
+        <div class="p-4 border-t-2 border-gray-100 bg-gray-50">
+            <button onclick="confirmAddToCart()" class="w-full bg-tuck-yellow hover:bg-yellow-400 text-tuck-navy font-black uppercase py-4 rounded-xl shadow-hard-sm transition-transform active:translate-y-1 active:shadow-none flex justify-center items-center gap-2 border-2 border-tuck-navy">
+                <i class="fa-solid fa-plus"></i> Add to Cart <span id="cust-btn-price" class="ml-2 px-2 py-1 bg-white rounded-md border border-tuck-navy text-sm">RM 0.00</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white z-[70] transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col border-l-4 border-tuck-navy">
+        <!-- Cart Header -->
+        <div class="bg-tuck-navy text-white p-5 flex justify-between items-center border-b-4 border-tuck-red">
+            <h2 class="font-black text-xl uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-tuck-yellow"></i> Your Order
+            </h2>
+            <button onclick="toggleCart()" class="text-gray-300 hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items (Scrollable) -->
+        <div id="cart-items" class="flex-grow overflow-y-auto p-4 cart-scroll space-y-4 bg-gray-50">
+            <!-- Empty state shown by default via JS if empty -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="border-t-2 border-gray-200 p-5 bg-white space-y-3">
+            <div class="flex justify-between font-bold text-gray-600">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">RM 0.00</span>
+            </div>
+            <div class="flex justify-between font-bold text-gray-600 pb-3 border-b border-gray-200">
+                <span>Delivery Est.</span>
+                <span>RM 5.00</span>
+            </div>
+            <div class="flex justify-between font-black text-xl text-tuck-navy pt-2">
+                <span>Total</span>
+                <span id="cart-total" class="text-tuck-red">RM 0.00</span>
+            </div>
+            <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full bg-tuck-yellow text-tuck-navy font-black uppercase py-4 rounded-xl shadow-hard-sm border-2 border-tuck-navy mt-4 transition-transform active:translate-y-1 active:shadow-none hover:bg-yellow-400">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- DELIVERY DETAILS / CHECKOUT MODAL -->
+    <div id="checkout-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl z-[80] w-11/12 max-w-lg hidden shadow-hard border-4 border-tuck-navy flex flex-col max-h-[90vh]">
+        <div class="bg-tuck-navy p-4 text-white flex justify-between items-center">
+            <h3 class="font-black text-xl uppercase tracking-wider">Delivery Details</h3>
+            <button onclick="closeCheckoutModal()" class="text-gray-300 hover:text-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+        
+        <div class="p-6 overflow-y-auto cart-scroll">
+            <form id="checkout-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="chk-name" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-tuck-navy focus:bg-white font-medium" placeholder="Your name">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">WhatsApp Number</label>
+                    <input type="tel" id="chk-phone" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-tuck-navy focus:bg-white font-medium" placeholder="01X-XXXXXXX">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Full Delivery Address</label>
+                    <textarea id="chk-address" required rows="3" class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-tuck-navy focus:bg-white font-medium" placeholder="House number, street, postcode, city"></textarea>
+                </div>
+                
+                <!-- TNG Instruction Block -->
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mt-6">
+                    <h4 class="font-black text-tuck-navy uppercase mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-blue-500"></i> Payment Method
+                    </h4>
+                    
+                    <div class="bg-white p-3 rounded-lg border border-gray-200 flex flex-col items-center justify-center gap-2 text-center mb-3">
+                        <div class="font-bold text-gray-800">Touch 'n Go eWallet Transfer</div>
+                        <div class="text-2xl font-black text-blue-600 bg-blue-100 px-4 py-1 rounded-lg">016-506 5983</div>
+                    </div>
+
+                    <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 p-3 rounded-lg text-sm font-bold shadow-inner">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> IMPORTANT: Do not pay yet!
+                        <p class="mt-1 font-medium text-xs leading-tight">Please send the WhatsApp message first to confirm if your area is covered for delivery. Make payment only after the restaurant confirms!</p>
+                    </div>
+                </div>
+                
+                <!-- Hidden payment field for JS logic to grab -->
+                <input type="hidden" id="chk-payment" value="Touch n Go (Pending confirmation)">
+
+                <button type="button" onclick="sendWhatsAppOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black uppercase py-4 rounded-xl shadow-hard-sm border-2 border-tuck-navy transition-transform active:translate-y-1 active:shadow-none flex justify-center items-center gap-2 mt-6">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Confirm via WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-3"></div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- 1. DATA: THE COMPLETE MENU ---
+        const menuItems = [
+            // Noodles (Starts with "From", Large is RM 22)
+            { id: 1, name: "Moon River Kuey Teow", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Moon+River", desc: "Signature wet kuey teow with raw egg." },
+            { id: 2, name: "Wa Tan Hor", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Wa+Tan+Hor", desc: "Classic Cantonese flat noodles in egg gravy." },
+            { id: 3, name: "Fried Kuey Teow", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Fried+Kuey+Teow", desc: "Dry fried flat noodles with wok hei." },
+            { id: 4, name: "Hokkien Fried Noodles", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Hokkien+Mee", desc: "Thick noodles braised in dark soy sauce." },
+            { id: 5, name: "Fried Vermicelli (Bihun)", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Fried+Bihun", desc: "Stir-fried rice vermicelli." },
+            { id: 6, name: "Mee Goreng", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Mee+Goreng", desc: "Spicy stir-fried yellow noodles." },
+            
+            // Octopus & Seafood (Fixed pricing, no "From")
+            { id: 7, name: "Ipoh Style Boiled Octopus", category: "seafood", price: 28.90, img: "https://placehold.co/400x300/0f172a/ffffff?text=Boiled+Octopus", desc: "Fresh tender octopus with fried garlic and soy sauce." },
+            { id: 8, name: "Spicy Sambal Octopus", category: "seafood", price: 29.90, img: "https://placehold.co/400x300/0f172a/ffffff?text=Spicy+Octopus", desc: "Stir-fried octopus in spicy sambal paste." },
+            { id: 9, name: "Garlic Butter Octopus", category: "seafood", price: 29.90, img: "https://placehold.co/400x300/0f172a/ffffff?text=Garlic+Octopus", desc: "Aromatic garlic butter finish." },
+            
+            // Side Orders
+            { id: 10, name: "Crispy Pork Meatballs (5pcs)", category: "sides", price: 8.50, img: "https://placehold.co/400x300/dc2626/ffffff?text=Meatballs+5pc", desc: "Deep fried homemade pork meatballs." },
+            { id: 11, name: "Crispy Pork Meatballs (10pcs)", category: "sides", price: 16.00, img: "https://placehold.co/400x300/dc2626/ffffff?text=Meatballs+10pc", desc: "Larger sharing portion of our signature meatballs." },
+            { id: 12, name: "Braised Chicken Feet", category: "sides", price: 9.90, img: "https://placehold.co/400x300/dc2626/ffffff?text=Chicken+Feet", desc: "Soft, flavorful braised chicken feet." },
+            { id: 13, name: "Extra Crispy Pork Lard", category: "sides", price: 3.50, img: "https://placehold.co/400x300/dc2626/ffffff?text=Pork+Lard", desc: "Crunchy pure fat goodness." },
+            
+            // Drinks
+            { id: 14, name: "Homemade Coconut Pudding", category: "drinks", price: 7.50, img: "https://placehold.co/400x300/38bdf8/ffffff?text=Coconut+Pudding", desc: "Refreshing sweet dessert." },
+            { id: 15, name: "Iced Lemon Tea", category: "drinks", price: 4.50, img: "https://placehold.co/400x300/38bdf8/ffffff?text=Lemon+Tea", desc: "Classic cooling beverage." },
+            { id: 16, name: "Herbal Tea", category: "drinks", price: 3.50, img: "https://placehold.co/400x300/38bdf8/ffffff?text=Herbal+Tea", desc: "Traditional cooling tea." }
+        ];
+
+        // --- 2. STATE ---
+        let cart = [];
+        let currentItem = null;
+        const WHATSAPP_NUM = "60165065983";
+
+        // --- 3. UI INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenuGrid('all');
+            
+            // Mobile menu toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+            
+            // Scroll shadow effect
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 10) {
+                    nav.classList.add('shadow-xl');
+                } else {
+                    nav.classList.remove('shadow-xl');
+                }
+            });
+        });
+
+        // --- 4. RENDER MENU ---
+        function renderMenuGrid(category) {
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = '';
+            
+            // Update active button state
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('bg-tuck-navy', 'text-white');
+                btn.classList.add('bg-white', 'text-tuck-navy');
+                
+                // Add active state if the button matches the selected category
+                if (btn.getAttribute('onclick').includes(`'${category}'`)) {
+                    btn.classList.remove('bg-white', 'text-tuck-navy');
+                    btn.classList.add('bg-tuck-navy', 'text-white');
+                }
+            });
+
+            const filtered = category === 'all' ? menuItems : menuItems.filter(i => i.category === category);
+            
+            filtered.forEach(item => {
+                // Apply "From" logic ONLY to noodles
+                const displayPrice = item.category === 'noodles' ? `From RM ${item.price.toFixed(2)}` : `RM ${item.price.toFixed(2)}`;
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-hard border-2 border-tuck-navy flex flex-col transition-transform hover:-translate-y-2 group">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            ${item.category === 'noodles' ? `<div class="absolute top-2 right-2 bg-tuck-yellow text-tuck-navy font-black text-xs px-2 py-1 rounded-md border border-tuck-navy">WOK HEI</div>` : ''}
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <h3 class="font-black text-tuck-navy text-xl mb-1">${item.name}</h3>
+                            <p class="text-gray-500 text-sm mb-4 flex-grow font-medium">${item.desc}</p>
+                            <div class="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
+                                <span class="font-black text-tuck-red text-lg">${displayPrice}</span>
+                                <button onclick="openCustomizer(${item.id})" class="bg-tuck-navy text-tuck-yellow w-10 h-10 rounded-full flex justify-center items-center hover:bg-tuck-yellow hover:text-tuck-navy transition-colors border-2 border-transparent hover:border-tuck-navy shadow-sm">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        // Expose for buttons
+        window.filterMenu = renderMenuGrid;
+
+        // --- 5. CUSTOMIZER LOGIC ---
+        window.openCustomizer = function(itemId) {
+            currentItem = menuItems.find(i => i.id === itemId);
+            if (!currentItem) return;
+
+            document.getElementById('cust-title').innerText = currentItem.name;
+            document.getElementById('cust-price').innerText = `RM ${currentItem.price.toFixed(2)}`;
+            document.getElementById('cust-note').value = '';
+            
+            // Size Selection Logic
+            const sizeSection = document.getElementById('size-section');
+            const radios = document.getElementsByName('size');
+            radios[0].checked = true; // Default to medium
+            
+            // Only show size options for food (noodles, seafood). Hide for drinks/sides if needed.
+            // For Tuck Tuck Kee, let's keep it simple: Size applies to main dishes. 
+            // The constraint specifically mentioned Large = RM22 for noodles.
+            if (currentItem.category === 'noodles') {
+                sizeSection.classList.remove('hidden');
+                document.getElementById('cust-med-price').innerText = `RM ${currentItem.price.toFixed(2)}`;
+                document.getElementById('cust-lrg-price').innerText = `RM 22.00`;
+            } else if (currentItem.category === 'seafood') {
+                sizeSection.classList.remove('hidden');
+                document.getElementById('cust-med-price').innerText = `RM ${currentItem.price.toFixed(2)}`;
+                // Large octopus is usually around +RM10 or so based on market. Let's make it fixed +10.
+                document.getElementById('cust-lrg-price').innerText = `RM ${(currentItem.price + 10).toFixed(2)}`;
+            } else {
+                sizeSection.classList.add('hidden'); // Hide for sides/drinks
+            }
+
+            updateCustPrice();
+            
+            document.getElementById('modal-overlay').classList.remove('hidden');
+            document.getElementById('customizer-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.updateCustPrice = function() {
+            if (!currentItem) return;
+            let finalPrice = currentItem.price;
+            
+            const sizeSection = document.getElementById('size-section');
+            if (!sizeSection.classList.contains('hidden')) {
+                const size = document.querySelector('input[name="size"]:checked').value;
+                if (size.includes('Large')) {
+                    if (currentItem.category === 'noodles') {
+                        finalPrice = 22.00;
+                    } else if (currentItem.category === 'seafood') {
+                        finalPrice = currentItem.price + 10.00;
+                    }
+                }
+            }
+
+            document.getElementById('cust-btn-price').innerText = `RM ${finalPrice.toFixed(2)}`;
+        }
+
+        window.confirmAddToCart = function() {
+            if (!currentItem) return;
+
+            const note = document.getElementById('cust-note').value.trim();
+            const sizeSection = document.getElementById('size-section');
+            let size = "Standard";
+            let finalPrice = currentItem.price;
+
+            if (!sizeSection.classList.contains('hidden')) {
+                size = document.querySelector('input[name="size"]:checked').value;
+                if (size.includes('Large')) {
+                    if (currentItem.category === 'noodles') finalPrice = 22.00;
+                    else if (currentItem.category === 'seafood') finalPrice += 10.00;
+                }
+            }
+
+            // Create cart item
+            const cartItem = {
+                id: Date.now(), // unique ID for cart instance
+                menuId: currentItem.id,
+                name: currentItem.name,
+                price: finalPrice,
+                size: size,
+                note: note,
+                qty: 1
+            };
+
+            cart.push(cartItem);
+            updateCartUI();
+            closeAllModals();
+            showToast(`Added ${currentItem.name} to cart!`);
+        }
+
+        // --- 6. CART UI & LOGIC ---
+        window.toggleCart = function() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('modal-overlay');
+            
+            if (drawer.classList.contains('translate-x-full')) {
+                // Open
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Close
+                drawer.classList.add('translate-x-full');
+                if (document.getElementById('checkout-modal').classList.contains('hidden') && 
+                    document.getElementById('customizer-modal').classList.contains('hidden')) {
+                    overlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        window.updateCartUI = function() {
+            const container = document.getElementById('cart-items');
+            const countBadges = [document.getElementById('cart-count'), document.getElementById('mobile-cart-count')];
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            // Update badges
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            countBadges.forEach(badge => {
+                badge.innerText = totalItems;
+                if (totalItems > 0) badge.classList.remove('hidden');
+                else badge.classList.add('hidden');
+            });
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
+                        <i class="fa-solid fa-basket-shopping text-6xl opacity-50"></i>
+                        <p class="font-bold">Your cart is empty</p>
+                    </div>`;
+                document.getElementById('cart-subtotal').innerText = 'RM 0.00';
+                document.getElementById('cart-total').innerText = 'RM 0.00';
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            checkoutBtn.disabled = false;
+            checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+                
+                let detailText = item.size !== "Standard" ? `<p class="text-xs text-tuck-red font-bold mt-1">Size: ${item.size}</p>` : '';
+                if (item.note) detailText += `<p class="text-xs text-gray-500 italic mt-1"><i class="fa-solid fa-note-sticky mr-1"></i>${item.note}</p>`;
+
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-black text-tuck-navy text-sm pr-6">${item.name}</h4>
+                            <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-tuck-red absolute top-4 right-4">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                        ${detailText}
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="font-black text-tuck-navy">RM ${itemTotal.toFixed(2)}</span>
+                            <div class="flex items-center gap-3 bg-gray-100 rounded-lg p-1">
+                                <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 flex justify-center items-center text-gray-600 hover:text-tuck-navy hover:bg-gray-200 rounded font-black">-</button>
+                                <span class="font-bold text-sm w-4 text-center">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 flex justify-center items-center text-gray-600 hover:text-tuck-navy hover:bg-gray-200 rounded font-black">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cart-subtotal').innerText = `RM ${subtotal.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `RM ${(subtotal + 5.00).toFixed(2)}`;
+        }
+
+        window.changeQty = function(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+                updateCartUI();
+            }
+        }
+
+        window.removeFromCart = function(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        // --- 7. CHECKOUT & WHATSAPP LOGIC ---
+        window.openCheckoutModal = function() {
+            if (cart.length === 0) return;
+            document.getElementById('cart-drawer').classList.add('translate-x-full');
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        window.closeCheckoutModal = function() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+            // Re-open cart drawer
+            document.getElementById('cart-drawer').classList.remove('translate-x-full');
+        }
+
+        window.closeAllModals = function() {
+            document.getElementById('customizer-modal').classList.add('hidden');
+            document.getElementById('cart-drawer').classList.add('translate-x-full');
+            document.getElementById('checkout-modal').classList.add('hidden');
+            document.getElementById('modal-overlay').classList.add('hidden');
+            document.body.style.overflow = '';
+            currentItem = null;
+        }
+
+        window.sendWhatsAppOrder = function() {
+            // Validate
+            const name = document.getElementById('chk-name').value.trim();
+            const phone = document.getElementById('chk-phone').value.trim();
+            const address = document.getElementById('chk-address').value.trim();
+            
+            if (!name || !phone || !address) {
+                showToast('Please fill in all delivery details!', 'error');
+                return;
+            }
+
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const deliveryFee = 5.00;
+            const grandTotal = subtotal + deliveryFee;
+
+            // Build Message
+            let msg = `*NEW DELIVERY ORDER - Tuck Tuck Kee*\n`;
+            msg += `---------------------------\n`;
+            msg += `*Name:* ${name}\n`;
+            msg += `*Phone:* ${phone}\n`;
+            msg += `*Address:* ${address}\n`;
+            msg += `---------------------------\n`;
+            msg += `*ORDER DETAILS:*\n`;
+            
+            cart.forEach((item, index) => {
+                msg += `${index + 1}. *${item.name}* (x${item.qty})\n`;
+                if(item.size !== "Standard") msg += `   Size: ${item.size}\n`;
+                if(item.note) msg += `   Note: _${item.note}_\n`;
+                msg += `   Price: RM ${(item.price * item.qty).toFixed(2)} (RM ${item.price.toFixed(2)}/ea)\n`;
+            });
+            
+            msg += `---------------------------\n`;
+            msg += `*Subtotal:* RM ${subtotal.toFixed(2)}\n`;
+            msg += `*Est. Delivery:* RM ${deliveryFee.toFixed(2)}\n`;
+            msg += `*GRAND TOTAL: RM ${grandTotal.toFixed(2)}*\n`;
+            msg += `---------------------------\n`;
+            msg += `*Payment Method:* Touch 'n Go (Pending Area Confirmation)\n\n`;
+            msg += `*Customer Note:* "Hi Boss, please confirm if my address is covered for delivery before I transfer via TNG. Thank you!"`;
+
+            const encodedURL = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
+            
+            // Clear cart & close modals
+            cart = [];
+            updateCartUI();
+            closeAllModals();
+            showToast('Opening WhatsApp to complete your order...', 'success');
+            
+            // Redirect
+            setTimeout(() => {
+                window.open(encodedURL, '_blank');
+            }, 1000);
+        }
+
+        window.triggerWhatsAppReservation = function() {
+            const name = document.getElementById('res-name').value.trim();
+            const phone = document.getElementById('res-phone').value.trim();
+            const date = document.getElementById('res-date').value;
+            const time = document.getElementById('res-time').value;
+            const guests = document.getElementById('res-guests').value;
+
+            if(!name || !phone || !date || !time) {
+                showToast('Please fill all reservation fields.', 'error');
+                return;
+            }
+
+            let msg = `*TABLE RESERVATION - Tuck Tuck Kee*\n`;
+            msg += `---------------------------\n`;
+            msg += `*Name:* ${name}\n`;
+            msg += `*Phone:* ${phone}\n`;
+            msg += `*Date:* ${date}\n`;
+            msg += `*Time:* ${time}\n`;
+            msg += `*Guests:* ${guests}\n`;
+            msg += `---------------------------\n`;
+            msg += `Please confirm if this slot is available. Thank you!`;
+
+            const encodedURL = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
+            
+            // Reset form
+            document.getElementById('reservation-form').reset();
+            showToast('Opening WhatsApp to send reservation request...', 'success');
+            
+            setTimeout(() => {
+                window.open(encodedURL, '_blank');
+            }, 1000);
+        }
+
+        // --- 8. TOAST NOTIFICATIONS ---
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'error' ? 'bg-tuck-red' : 'bg-tuck-navy';
+            const icon = type === 'error' ? 'fa-circle-xmark' : 'fa-circle-check';
+            const textColor = type === 'error' ? 'text-white' : 'text-tuck-yellow';
+
+            toast.className = `${bgColor} text-white px-6 py-4 rounded-xl shadow-hard border-2 border-white flex items-center gap-3 toast-enter font-bold`;
+            toast.innerHTML = `<i class="fa-solid ${icon} ${textColor} text-xl"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.replace('toast-enter', 'toast-exit');
+                setTimeout(() => {
+                    if (container.contains(toast)) container.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
