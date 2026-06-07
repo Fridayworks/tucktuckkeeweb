@@ -80,6 +80,7 @@
 
         /* Language Switcher */
         .lang-dropdown { position: relative; }
+        .lang-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 12px; }
         .lang-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #0f172a; border: 2px solid #ffcc00; border-radius: 12px; min-width: 130px; z-index: 200; overflow: hidden; box-shadow: 4px 4px 0 rgba(15,23,42,1); }
         .lang-dropdown:hover .lang-menu, .lang-dropdown.open .lang-menu { display: block; }
         .lang-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 14px; color: #fff; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; transition: background 0.15s; }
@@ -208,6 +209,15 @@
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-black uppercase tracking-wider text-tuck-navy" data-i18n="menu_heading">Our Menu</h2>
                 <div class="w-24 h-1 bg-tuck-red mx-auto mt-4 rounded-full"></div>
+            </div>
+            
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <button onclick="renderMenuGrid('all')" class="menu-btn px-6 py-2 rounded-full font-black uppercase transition-all bg-tuck-navy text-white">All</button>
+                <button onclick="renderMenuGrid('noodles')" class="menu-btn px-6 py-2 rounded-full font-black uppercase transition-all bg-white text-tuck-navy border-2 border-tuck-navy hover:bg-tuck-navy hover:text-white">Noodles</button>
+                <button onclick="renderMenuGrid('seafood')" class="menu-btn px-6 py-2 rounded-full font-black uppercase transition-all bg-white text-tuck-navy border-2 border-tuck-navy hover:bg-tuck-navy hover:text-white">Seafood</button>
+                <button onclick="renderMenuGrid('sides')" class="menu-btn px-6 py-2 rounded-full font-black uppercase transition-all bg-white text-tuck-navy border-2 border-tuck-navy hover:bg-tuck-navy hover:text-white">Sides</button>
+                <button onclick="renderMenuGrid('drinks')" class="menu-btn px-6 py-2 rounded-full font-black uppercase transition-all bg-white text-tuck-navy border-2 border-tuck-navy hover:bg-tuck-navy hover:text-white">Drinks</button>
             </div>
             
             <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -423,27 +433,6 @@
                 <form id="reservation-form" class="space-y-4 mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_name">Your Name</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fa-regular fa-user text-gray-400"></i>
-                                    </div>
-                                    <input type="text" id="res-name" required class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium" placeholder="John Doe">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_phone">Phone Number</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <i class="fa-solid fa-phone text-gray-400"></i>
-                                    </div>
-                                    <input type="tel" id="res-phone" required class="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-tuck-navy focus:bg-white font-medium" placeholder="01X-XXXXXXX">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1" data-i18n="res_date">Date</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -533,27 +522,6 @@
                 </div>
             </div>
 
-            <!-- Payment Instructions Section -->
-            <div class="mb-12 border-b border-gray-700 pb-12">
-                <h3 class="text-tuck-yellow font-black text-xl mb-4 uppercase tracking-widest text-center" data-i18n="payment_title">Payment Instructions</h3>
-                <div class="bg-amber-50 p-6 rounded-xl border-2 border-tuck-yellow text-tuck-navy">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="text-center">
-                            <i class="fa-brands fa-whatsapp text-green-500 text-4xl mb-3"></i>
-                            <h4 class="font-black text-lg mb-2" data-i18n="payment_whatsapp_title">WhatsApp Orders</h4>
-                            <p class="font-bold text-sm" data-i18n="payment_whatsapp_desc">For orders placed via WhatsApp:</p>
-                            <p class="text-sm mt-1" data-i18n="payment_whatsapp_detail">Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span></p>
-                        </div>
-                        <div class="text-center">
-                            <i class="fa-solid fa-user-tie text-tuck-red text-4xl mb-3"></i>
-                            <h4 class="font-black text-lg mb-2" data-i18n="payment_direct_title">Direct Orders</h4>
-                            <p class="font-bold text-sm" data-i18n="payment_direct_desc">For orders placed directly with staff:</p>
-                            <p class="text-sm mt-1" data-i18n="payment_direct_detail">Payment can be made at the counter after receiving your order</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 font-medium">
                 <p>&copy; 2026 Tuck Tuck Kee's Octopus. All Rights Reserved.</p>
                 <div class="flex gap-4 mt-4 md:mt-0">
@@ -583,28 +551,28 @@
         <div class="p-6 overflow-y-auto cart-scroll flex-grow">
             <!-- Price Display -->
             <div class="flex justify-between items-center bg-gray-100 p-4 rounded-xl border border-gray-300 mb-6">
-                <span class="font-bold text-gray-600 uppercase text-sm">Base Price</span>
+                <span class="font-bold text-gray-600 uppercase text-sm" data-i18n="cust_base_price">Base Price</span>
                 <span class="font-black text-xl text-tuck-red" id="cust-price">RM 0.00</span>
             </div>
 
             <!-- Size Selection -->
             <div class="mb-6" id="size-section">
                 <h4 class="font-black text-tuck-navy uppercase mb-3 text-sm flex justify-between">
-                    <span>Choose Size</span>
-                    <span class="text-tuck-red">*Required</span>
+                    <span data-i18n="cust_choose_size">Choose Size</span>
+                    <span class="text-tuck-red" data-i18n="cust_required">*Required</span>
                 </h4>
                 <div class="space-y-3">
                     <label class="flex items-center justify-between p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-tuck-yellow hover:bg-yellow-50 transition-colors custom-radio-wrapper">
                         <div class="flex items-center gap-3">
                             <input type="radio" name="size" value="Medium (Regular)" checked class="w-5 h-5 text-tuck-yellow focus:ring-tuck-yellow" onchange="updateCustPrice()">
-                            <span class="font-bold text-gray-800">Medium (Regular)</span>
+                            <span class="font-bold text-gray-800" data-i18n="cust_size_medium">Medium (Regular)</span>
                         </div>
                         <span class="font-bold text-gray-500" id="cust-med-price">+ RM 0.00</span>
                     </label>
                     <label class="flex items-center justify-between p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-tuck-yellow hover:bg-yellow-50 transition-colors custom-radio-wrapper">
                         <div class="flex items-center gap-3">
                             <input type="radio" name="size" value="Large (Big)" class="w-5 h-5 text-tuck-yellow focus:ring-tuck-yellow" onchange="updateCustPrice()">
-                            <span class="font-bold text-gray-800">Large (Big)</span>
+                            <span class="font-bold text-gray-800" data-i18n="cust_size_large">Large (Big)</span>
                         </div>
                         <span class="font-bold text-tuck-red" id="cust-lrg-price">RM 22.00</span>
                     </label>
@@ -613,15 +581,15 @@
 
             <!-- Kitchen Note -->
             <div>
-                <h4 class="font-black text-tuck-navy uppercase mb-3 text-sm">Kitchen Note (Optional)</h4>
-                <textarea id="cust-note" rows="2" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:outline-none focus:border-tuck-navy focus:bg-gray-50 font-medium text-sm" placeholder="e.g., Less spicy, no spring onions..."></textarea>
+                <h4 class="font-black text-tuck-navy uppercase mb-3 text-sm" data-i18n="cust_note_title">Kitchen Note (Optional)</h4>
+                <textarea id="cust-note" rows="2" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:outline-none focus:border-tuck-navy focus:bg-gray-50 font-medium text-sm" placeholder="e.g., Less spicy, no spring onions..." data-i18n="cust_note_placeholder"></textarea>
             </div>
         </div>
 
         <!-- Footer / Add Button -->
         <div class="p-4 border-t-2 border-gray-100 bg-gray-50">
             <button onclick="confirmAddToCart()" class="w-full bg-tuck-yellow hover:bg-yellow-400 text-tuck-navy font-black uppercase py-4 rounded-xl shadow-hard-sm transition-transform active:translate-y-1 active:shadow-none flex justify-center items-center gap-2 border-2 border-tuck-navy">
-                <i class="fa-solid fa-plus"></i> Add to Cart <span id="cust-btn-price" class="ml-2 px-2 py-1 bg-white rounded-md border border-tuck-navy text-sm">RM 0.00</span>
+                <i class="fa-solid fa-plus"></i> <span data-i18n="cust_add_btn">Add to Cart</span> <span id="cust-btn-price" class="ml-2 px-2 py-1 bg-white rounded-md border border-tuck-navy text-sm">RM 0.00</span>
             </button>
         </div>
     </div>
@@ -675,29 +643,29 @@
         <div class="p-6 overflow-y-auto cart-scroll">
             <form id="checkout-form" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Your Name</label>
-                    <input type="text" id="chk-name" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-tuck-navy focus:bg-white font-medium" placeholder="Your name">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">WhatsApp Number</label>
-                    <input type="tel" id="chk-phone" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-tuck-navy focus:bg-white font-medium" placeholder="01X-XXXXXXX">
-                </div>
-                <div>
                     <label class="block text-sm font-bold text-gray-700 mb-1">Table Number</label>
                     <input type="text" id="chk-table" required class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-tuck-navy focus:bg-white font-medium" placeholder="e.g. Table 5">
                 </div>
                 
-                <!-- Payment Instruction Block -->
-                <div class="bg-amber-50 border-2 border-tuck-yellow/50 rounded-xl p-4 mt-6">
-                    <h4 class="font-black text-tuck-navy uppercase mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-wallet text-tuck-red"></i> Payment Method
-                    </h4>
-                    <p class="text-gray-800 text-sm font-black">Pay at Counter (Cash, Card, or TNG eWallet)</p>
-                    <p class="text-xs text-gray-500 mt-1">Please make payment at the counter when you finish eating, or upon order verification by staff.</p>
+                <!-- Payment Method Selection -->
+                <div class="mt-6">
+                    <label class="block text-sm font-bold text-gray-700 mb-3" data-i18n="chk_payment_method">Payment Method</label>
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-tuck-yellow hover:bg-yellow-50 transition-colors bg-white custom-radio-wrapper">
+                            <input type="radio" name="payment_method" value="Cash" class="mt-0.5 w-5 h-5 text-tuck-yellow focus:ring-tuck-yellow" checked>
+                            <div>
+                                <span class="font-bold text-gray-800 block" data-i18n="chk_cash">Cash</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-tuck-yellow hover:bg-yellow-50 transition-colors bg-white custom-radio-wrapper">
+                            <input type="radio" name="payment_method" value="Touch 'n Go eWallet" class="mt-0.5 w-5 h-5 text-tuck-yellow focus:ring-tuck-yellow">
+                            <div>
+                                <span class="font-bold text-gray-800 block" data-i18n="chk_tng">Touch 'n Go eWallet (016-506 5983)</span>
+                                <p class="text-xs text-gray-500 mt-1" data-i18n="chk_tng_desc">If paying via TNG, please send your payment screenshot via WhatsApp after completing the transfer.</p>
+                            </div>
+                        </label>
+                    </div>
                 </div>
-                
-                <!-- Hidden payment field for JS logic to grab -->
-                <input type="hidden" id="chk-payment" value="Pay at Counter">
 
                 <button type="button" onclick="sendWhatsAppOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black uppercase py-4 rounded-xl shadow-hard-sm border-2 border-tuck-navy transition-transform active:translate-y-1 active:shadow-none flex justify-center items-center gap-2 mt-6">
                     <i class="fa-brands fa-whatsapp text-xl"></i> Send Order via WhatsApp
@@ -714,28 +682,140 @@
         // --- 1. DATA: THE COMPLETE MENU ---
         const menuItems = [
             // Noodles (Starts with "From", Large is RM 22)
-            { id: 1, name: "Moon River Kuey Teow", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Moon+River", desc: "Signature wet kuey teow with raw egg." },
-            { id: 2, name: "Wa Tan Hor", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Wa+Tan+Hor", desc: "Classic Cantonese flat noodles in egg gravy." },
-            { id: 3, name: "Fried Kuey Teow", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Fried+Kuey+Teow", desc: "Dry fried flat noodles with wok hei." },
-            { id: 4, name: "Hokkien Fried Noodles", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Hokkien+Mee", desc: "Thick noodles braised in dark soy sauce." },
-            { id: 5, name: "Fried Vermicelli (Bihun)", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Fried+Bihun", desc: "Stir-fried rice vermicelli." },
-            { id: 6, name: "Mee Goreng", category: "noodles", price: 10.50, img: "https://placehold.co/400x300/ffcc00/0f172a?text=Mee+Goreng", desc: "Spicy stir-fried yellow noodles." },
+            { 
+                id: 1, 
+                name: { en: "Moon River Kuey Teow", zh: "月亮河粿条", ja: "ムーンリバー クエーティャオ", ms: "Kuey Teow Moon River" }, 
+                category: "noodles", 
+                price: 10.50, 
+                img: "https://placehold.co/400x300/ffcc00/0f172a?text=Moon+River", 
+                desc: { en: "Signature wet kuey teow with raw egg.", zh: "招牌湿粿条配生蛋。", ja: "卵かけの特製クエーティャオ。", ms: "Kuey teow basah signature dengan telur mentah." } 
+            },
+            { 
+                id: 2, 
+                name: { en: "Wa Tan Hor", zh: "华旦河", ja: "ワータンホー", ms: "Wa Tan Hor" }, 
+                category: "noodles", 
+                price: 10.50, 
+                img: "https://placehold.co/400x300/ffcc00/0f172a?text=Wa+Tan+Hor", 
+                desc: { en: "Classic Cantonese flat noodles in egg gravy.", zh: "经典广东式鸡蛋河粉。", ja: "卵 gravy であえる定番広東風平たいめん。", ms: "Mi leper Kantonis klasik dalam kuah telur." } 
+            },
+            { 
+                id: 3, 
+                name: { en: "Fried Kuey Teow", zh: "炒粿条", ja: "フライ クエーティャオ", ms: "Kuey Teow Goreng" }, 
+                category: "noodles", 
+                price: 10.50, 
+                img: "https://placehold.co/400x300/ffcc00/0f172a?text=Fried+Kuey+Teow", 
+                desc: { en: "Dry fried flat noodles with wok hei.", zh: "干炒粿条，有镬气。", ja: "中華なべで炒めた乾燥平たいめん。", ms: "Mi leper goreng kering dengan wok hei." } 
+            },
+            { 
+                id: 4, 
+                name: { en: "Hokkien Fried Noodles", zh: "福建炒面", ja: "福建炒麺", ms: "Mi Hokkien Goreng" }, 
+                category: "noodles", 
+                price: 10.50, 
+                img: "https://placehold.co/400x300/ffcc00/0f172a?text=Hokkien+Mee", 
+                desc: { en: "Thick noodles braised in dark soy sauce.", zh: "粗面条以酱油焖煮。", ja: "濃口醤油で煮込んだ太麺。", ms: "Mi tebal dimasak dalam sos tiram gelap." } 
+            },
+            { 
+                id: 5, 
+                name: { en: "Fried Vermicelli (Bihun)", zh: "炒米粉", ja: "焼きビーフン", ms: "Bihun Goreng" }, 
+                category: "noodles", 
+                price: 10.50, 
+                img: "https://placehold.co/400x300/ffcc00/0f172a?text=Fried+Bihun", 
+                desc: { en: "Stir-fried rice vermicelli.", zh: "炒米粉。", ja: "焼きライスビーフン。", ms: "Bihun nasi goreng." } 
+            },
+            { 
+                id: 6, 
+                name: { en: "Mee Goreng", zh: "炒面", ja: "ミーゴレン", ms: "Mee Goreng" }, 
+                category: "noodles", 
+                price: 10.50, 
+                img: "https://placehold.co/400x300/ffcc00/0f172a?text=Mee+Goreng", 
+                desc: { en: "Spicy stir-fried yellow noodles.", zh: "辣味炒黄面。", ja: "辛味炒めのイエローナン。", ms: "Mi kuning goreng pedas." } 
+            },
             
             // Octopus & Seafood (Fixed pricing, no "From")
-            { id: 7, name: "Ipoh Style Boiled Octopus", category: "seafood", price: 28.90, img: "https://placehold.co/400x300/0f172a/ffffff?text=Boiled+Octopus", desc: "Fresh tender octopus with fried garlic and soy sauce." },
-            { id: 8, name: "Spicy Sambal Octopus", category: "seafood", price: 29.90, img: "https://placehold.co/400x300/0f172a/ffffff?text=Spicy+Octopus", desc: "Stir-fried octopus in spicy sambal paste." },
-            { id: 9, name: "Garlic Butter Octopus", category: "seafood", price: 29.90, img: "https://placehold.co/400x300/0f172a/ffffff?text=Garlic+Octopus", desc: "Aromatic garlic butter finish." },
+            { 
+                id: 7, 
+                name: { en: "Ipoh Style Boiled Octopus", zh: "怡保风煮章鱼", ja: "イポー風茹でタコ", ms: "Sotong Rebusan Gaya Ipoh" }, 
+                category: "seafood", 
+                price: 28.90, 
+                img: "https://placehold.co/400x300/0f172a/ffffff?text=Boiled+Octopus", 
+                desc: { en: "Fresh tender octopus with fried garlic and soy sauce.", zh: "新鲜嫩章鱼配炸蒜和酱油。", ja: "揚げニンニクと醤油の新鮮で柔らかいタコ。", ms: "Sotong lembut segar dengan bawang putih goreng dan sos tiram." } 
+            },
+            { 
+                id: 8, 
+                name: { en: "Spicy Sambal Octopus", zh: "辣酱章鱼", ja: "スパイシー サンバル タコ", ms: "Sotong Sambal Pedas" }, 
+                category: "seafood", 
+                price: 29.90, 
+                img: "https://placehold.co/400x300/0f172a/ffffff?text=Spicy+Octopus", 
+                desc: { en: "Stir-fried octopus in spicy sambal paste.", zh: "用辣酱炒章鱼。", ja: "スパイシーなサンバルペーストで炒めたタコ。", ms: "Sotong digoreng dalam pes sambal pedas." } 
+            },
+            { 
+                id: 9, 
+                name: { en: "Garlic Butter Octopus", zh: "蒜蓉牛油章鱼", ja: "ガーリックバター タコ", ms: "Sotong Mentega Bawang Putih" }, 
+                category: "seafood", 
+                price: 29.90, 
+                img: "https://placehold.co/400x300/0f172a/ffffff?text=Garlic+Octopus", 
+                desc: { en: "Aromatic garlic butter finish.", zh: "香味蒜蓉牛油调味。", ja: "芳醇なガーリックバター仕上げ。", ms: "Akhiran mentega bawang putih harum." } 
+            },
             
             // Side Orders
-            { id: 10, name: "Crispy Pork Meatballs (5pcs)", category: "sides", price: 8.50, img: "https://placehold.co/400x300/dc2626/ffffff?text=Meatballs+5pc", desc: "Deep fried homemade pork meatballs." },
-            { id: 11, name: "Crispy Pork Meatballs (10pcs)", category: "sides", price: 16.00, img: "https://placehold.co/400x300/dc2626/ffffff?text=Meatballs+10pc", desc: "Larger sharing portion of our signature meatballs." },
-            { id: 12, name: "Braised Chicken Feet", category: "sides", price: 9.90, img: "https://placehold.co/400x300/dc2626/ffffff?text=Chicken+Feet", desc: "Soft, flavorful braised chicken feet." },
-            { id: 13, name: "Extra Crispy Pork Lard", category: "sides", price: 3.50, img: "https://placehold.co/400x300/dc2626/ffffff?text=Pork+Lard", desc: "Crunchy pure fat goodness." },
+            { 
+                id: 10, 
+                name: { en: "Crispy Pork Meatballs (5pcs)", zh: "脆猪肉丸子 (5粒)", ja: "サクサク ポーク ミートボール (5個)", ms: "Bebola Daging Rangup (5 biji)" }, 
+                category: "sides", 
+                price: 8.50, 
+                img: "https://placehold.co/400x300/dc2626/ffffff?text=Meatballs+5pc", 
+                desc: { en: "Deep fried homemade pork meatballs.", zh: "炸制家常猪肉丸子。", ja: "自家製ポークミートボールを揚げた。", ms: "Bebola daging khinzir buatan sendiri digoreng." } 
+            },
+            { 
+                id: 11, 
+                name: { en: "Crispy Pork Meatballs (10pcs)", zh: "脆猪肉丸子 (10粒)", ja: "サクサク ポーク ミートボール (10個)", ms: "Bebola Daging Rangup (10 biji)" }, 
+                category: "sides", 
+                price: 16.00, 
+                img: "https://placehold.co/400x300/dc2626/ffffff?text=Meatballs+10pc", 
+                desc: { en: "Larger sharing portion of our signature meatballs.", zh: "较大份量的招牌肉丸。", ja: "当店自慢のミートボールをたっぷりと。", ms: "Portion besar bebola daging signature kami." } 
+            },
+            { 
+                id: 12, 
+                name: { en: "Braised Chicken Feet", zh: "卤鸡脚", ja: "煮込みチキンフィート", ms: "Kaki Ayam Masak Lembut" }, 
+                category: "sides", 
+                price: 9.90, 
+                img: "https://placehold.co/400x300/dc2626/ffffff?text=Chicken+Feet", 
+                desc: { en: "Soft, flavorful braised chicken feet.", zh: "软嫩多汁的卤鸡脚。", ja: "柔らかく風味豊かな煮込み鶏足。", ms: "Kaki ayam masak lembut, sedap." } 
+            },
+            { 
+                id: 13, 
+                name: { en: "Extra Crispy Pork Lard", zh: "超脆猪油渣", ja: "サクサク ポークリード", ms: "Lemak Khinzir Rangup Ekstra" }, 
+                category: "sides", 
+                price: 3.50, 
+                img: "https://placehold.co/400x300/dc2626/ffffff?text=Pork+Lard", 
+                desc: { en: "Crunchy pure fat goodness.", zh: "香脆纯猪油渣。", ja: "サクサクの純度100％ラード。", ms: "Lemak tulen rangup sedap." } 
+            },
             
             // Drinks
-            { id: 14, name: "Homemade Coconut Pudding", category: "drinks", price: 7.50, img: "https://placehold.co/400x300/38bdf8/ffffff?text=Coconut+Pudding", desc: "Refreshing sweet dessert." },
-            { id: 15, name: "Iced Lemon Tea", category: "drinks", price: 4.50, img: "https://placehold.co/400x300/38bdf8/ffffff?text=Lemon+Tea", desc: "Classic cooling beverage." },
-            { id: 16, name: "Herbal Tea", category: "drinks", price: 3.50, img: "https://placehold.co/400x300/38bdf8/ffffff?text=Herbal+Tea", desc: "Traditional cooling tea." }
+            { 
+                id: 14, 
+                name: { en: "Homemade Coconut Pudding", zh: "自制椰子布丁", ja: "自家製ココナッツプディング", ms: "Puding Kelapa Buatan Sendiri" }, 
+                category: "drinks", 
+                price: 7.50, 
+                img: "https://placehold.co/400x300/38bdf8/ffffff?text=Coconut+Pudding", 
+                desc: { en: "Refreshing sweet dessert.", zh: "清爽甜品。", ja: "さっぱりとした甘いデザート。", ms: "Pencuci mulut manis menyegarkan." } 
+            },
+            { 
+                id: 15, 
+                name: { en: "Iced Lemon Tea", zh: "冰柠檬茶", ja: "アイスレモンティー", ms: "Teh Limau Sejuk" }, 
+                category: "drinks", 
+                price: 4.50, 
+                img: "https://placehold.co/400x300/38bdf8/ffffff?text=Lemon+Tea", 
+                desc: { en: "Classic cooling beverage.", zh: "经典清凉饮料。", ja: "クラシックな清涼飲料。", ms: "Minuman sejukkan klasik." } 
+            },
+            { 
+                id: 16, 
+                name: { en: "Herbal Tea", zh: "凉茶", ja: "ハーブティー", ms: "Teh Herba" }, 
+                category: "drinks", 
+                price: 3.50, 
+                img: "https://placehold.co/400x300/38bdf8/ffffff?text=Herbal+Tea", 
+                desc: { en: "Traditional cooling tea.", zh: "传统凉茶。", ja: "伝統的な清涼ティー。", ms: "Teh sejukkan tradisional." } 
+            }
         ];
 
         // --- 2. STATE ---
@@ -795,18 +875,22 @@
             const filtered = category === 'all' ? menuItems : menuItems.filter(i => i.category === category);
             
             filtered.forEach(item => {
+                // Get current language for item name and description
+                const itemName = item.name[currentLang] || item.name.en;
+                const itemDesc = item.desc[currentLang] || item.desc.en;
+                
                 // Apply "From" logic ONLY to noodles
                 const displayPrice = item.category === 'noodles' ? `From RM ${item.price.toFixed(2)}` : `RM ${item.price.toFixed(2)}`;
 
                 grid.innerHTML += `
                     <div class="bg-white rounded-2xl overflow-hidden shadow-hard border-2 border-tuck-navy flex flex-col transition-transform hover:-translate-y-2 group">
                         <div class="h-48 overflow-hidden relative">
-                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <img src="${item.img}" alt="${itemName}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             ${item.category === 'noodles' ? `<div class="absolute top-2 right-2 bg-tuck-yellow text-tuck-navy font-black text-xs px-2 py-1 rounded-md border border-tuck-navy">WOK HEI</div>` : ''}
                         </div>
                         <div class="p-5 flex flex-col flex-grow">
-                            <h3 class="font-black text-tuck-navy text-xl mb-1">${item.name}</h3>
-                            <p class="text-gray-500 text-sm mb-4 flex-grow font-medium">${item.desc}</p>
+                            <h3 class="font-black text-tuck-navy text-xl mb-1">${itemName}</h3>
+                            <p class="text-gray-500 text-sm mb-4 flex-grow font-medium">${itemDesc}</p>
                             <div class="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
                                 <span class="font-black text-tuck-red text-lg">${displayPrice}</span>
                                 <button onclick="openCustomizer(${item.id})" class="bg-tuck-navy text-tuck-yellow w-10 h-10 rounded-full flex justify-center items-center hover:bg-tuck-yellow hover:text-tuck-navy transition-colors border-2 border-transparent hover:border-tuck-navy shadow-sm">
@@ -826,7 +910,8 @@
             currentItem = menuItems.find(i => i.id === itemId);
             if (!currentItem) return;
 
-            document.getElementById('cust-title').innerText = currentItem.name;
+            const itemName = currentItem.name[currentLang] || currentItem.name.en;
+            document.getElementById('cust-title').innerText = itemName;
             document.getElementById('cust-price').innerText = `RM ${currentItem.price.toFixed(2)}`;
             document.getElementById('cust-note').value = '';
             
@@ -893,21 +978,37 @@
                 }
             }
 
+            // Get current language for item name when adding to cart
+            const itemName = currentItem.name[currentLang] || currentItem.name.en;
+
             // Create cart item
             const cartItem = {
                 id: Date.now(), // unique ID for cart instance
                 menuId: currentItem.id,
-                name: currentItem.name,
+                name: itemName,  // Use translated name
                 price: finalPrice,
+                qty: 1,
                 size: size,
                 note: note,
-                qty: 1
+                category: currentItem.category
             };
 
-            cart.push(cartItem);
+            // Check if item with same properties already exists
+            const existingIndex = cart.findIndex(item => 
+                item.menuId === cartItem.menuId && 
+                item.size === cartItem.size && 
+                item.note === cartItem.note
+            );
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty++;
+            } else {
+                cart.push(cartItem);
+            }
+
             updateCartUI();
             closeAllModals();
-            showToast(`Added ${currentItem.name} to cart!`);
+            showToast(`${itemName} added to cart!`, 'success');
         }
 
         // --- 6. CART UI & LOGIC ---
@@ -948,7 +1049,7 @@
                 container.innerHTML = `
                     <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
                         <i class="fa-solid fa-basket-shopping text-6xl opacity-50"></i>
-                        <p class="font-bold">Your cart is empty</p>
+                        <p class="font-bold" data-i18n="cart_empty">Your cart is empty</p>
                     </div>`;
                 document.getElementById('cart-subtotal').innerText = 'RM 0.00';
                 document.getElementById('cart-total').innerText = 'RM 0.00';
@@ -964,6 +1065,10 @@
             let subtotal = 0;
 
             cart.forEach(item => {
+                // Find original menu item to get translated name
+                const originalItem = menuItems.find(mi => mi.id === item.menuId);
+                const itemName = originalItem && originalItem.name[currentLang] ? originalItem.name[currentLang] : item.name;
+                
                 const itemTotal = item.price * item.qty;
                 subtotal += itemTotal;
                 
@@ -973,7 +1078,7 @@
                 container.innerHTML += `
                     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative">
                         <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-black text-tuck-navy text-sm pr-6">${item.name}</h4>
+                            <h4 class="font-black text-tuck-navy text-sm pr-6">${itemName}</h4>
                             <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-tuck-red absolute top-4 right-4">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
@@ -1039,15 +1144,21 @@
         }
 
         window.sendWhatsAppOrder = function() {
-            // Validate
-            const name = document.getElementById('chk-name').value.trim();
-            const phone = document.getElementById('chk-phone').value.trim();
+            // Validate only table number
             const table = document.getElementById('chk-table').value.trim();
+            const paymentMethodElement = document.querySelector('input[name="payment_method"]:checked');
             
-            if (!name || !phone || !table) {
-                showToast('Please fill in all order details!', 'error');
+            if (!table) {
+                showToast('Please enter your table number!', 'error');
                 return;
             }
+            
+            if (!paymentMethodElement) {
+                showToast('Please select a payment method!', 'error');
+                return;
+            }
+
+            const paymentMethod = paymentMethodElement.value;
 
             // Calculate totals
             const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
@@ -1055,8 +1166,6 @@
             // Build Message
             let msg = `*NEW DINE-IN ORDER - Tuck Tuck Kee*\n`;
             msg += `---------------------------\n`;
-            msg += `*Name:* ${name}\n`;
-            msg += `*Phone:* ${phone}\n`;
             msg += `*Table Number:* ${table}\n`;
             msg += `---------------------------\n`;
             msg += `*ORDER DETAILS:*\n`;
@@ -1071,8 +1180,8 @@
             msg += `---------------------------\n`;
             msg += `*GRAND TOTAL: RM ${grandTotal.toFixed(2)}*\n`;
             msg += `---------------------------\n`;
-            msg += `*Payment Method:* Pay at Counter (Cash / Card / eWallet)\n\n`;
-            msg += `*Customer Note:* "Hi Boss, I am at ${table}. Here is my order. Please confirm and print the receipt. Thank you!"`;
+            msg += `*Payment Method:* ${paymentMethod}\n\n`;
+            msg += `*Customer Note:* "Hi Boss, I am at ${table}. Here is my order. Thank you!"`;
 
             const encodedURL = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
             
@@ -1089,21 +1198,17 @@
         }
 
         window.triggerWhatsAppReservation = function() {
-            const name = document.getElementById('res-name').value.trim();
-            const phone = document.getElementById('res-phone').value.trim();
             const date = document.getElementById('res-date').value;
             const time = document.getElementById('res-time').value;
             const guests = document.getElementById('res-guests').value;
 
-            if(!name || !phone || !date || !time) {
+            if(!date || !time) {
                 showToast('Please fill all reservation fields.', 'error');
                 return;
             }
 
             let msg = `*TABLE RESERVATION - Tuck Tuck Kee*\n`;
             msg += `---------------------------\n`;
-            msg += `*Name:* ${name}\n`;
-            msg += `*Phone:* ${phone}\n`;
             msg += `*Date:* ${date}\n`;
             msg += `*Time:* ${time}\n`;
             msg += `*Guests:* ${guests}\n`;
@@ -1163,9 +1268,12 @@
                 res_label: 'Reserve Your Table', res_name: 'Your Name', res_phone: 'Phone Number', res_date: 'Date', res_time: 'Time', res_guests: 'Number of Guests', res_btn: 'Book via WhatsApp',
                 footer_contact: 'Contact Us', footer_scan: 'Scan & Order', footer_scan_desc: 'Dining with us? Scan the QR code at your table to place your order directly via WhatsApp.',
                 payment_title: 'Payment Instructions', payment_whatsapp_title: 'WhatsApp Orders', payment_whatsapp_desc: 'For orders placed via WhatsApp:', 
-                payment_whatsapp_detail: 'Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span>',
+                payment_whatsapp_detail: 'Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span>. Attach screenshot of payment proof when sending order.',
                 payment_direct_title: 'Direct Orders', payment_direct_desc: 'For orders placed directly with staff:', 
-                payment_direct_detail: 'Payment can be made at the counter after receiving your order'
+                payment_direct_detail: 'Payment can be made at the counter (Cash or TnG only) after receiving your order',
+                cart_empty: 'Your cart is empty',
+                cust_base_price: 'Base Price', cust_choose_size: 'Choose Size', cust_required: '*Required', cust_size_medium: 'Medium (Regular)', cust_size_large: 'Large (Big)', cust_note_title: 'Kitchen Note (Optional)', cust_note_placeholder: 'e.g., Less spicy, no spring onions...', cust_add_btn: 'Add to Cart',
+                chk_payment_method: 'Payment Method', chk_cash: 'Cash', chk_tng: "Touch 'n Go eWallet (016-506 5983)", chk_tng_desc: "If paying via TNG, please send your payment screenshot via WhatsApp after completing the transfer."
             },
             zh: {
                 nav_home: '首页', nav_about: '关于我们', nav_menu: '菜单', nav_reviews: '评价', nav_contact: '联系我们', nav_order: '立即点餐',
@@ -1188,12 +1296,15 @@
                 promise1: '世代相传的家族食谱', promise2: '传奇镬气味道', promise3: '温馨家庭待客之道',
                 sidebar_book: '立即预订座位',
                 res_heading: '预订座位', res_subheading: '保留您的位置，享受正宗的路边餐饮体验。',
-                res_label: '预订您的座位', res_name: '您的姓名', res_phone: '电话号码', res_date: '日期', res_time: '时间', res_guests: '用餐人数', res_btn: '通过 WhatsApp 预订',
+                res_label: '预订您的座位', res_name: '您的姓名', res_phone: '電話号码', res_date: '日期', res_time: '時間', res_guests: '用餐人数', res_btn: '通过 WhatsApp 预订',
                 footer_contact: '联系我们', footer_scan: '扫码点餐', footer_scan_desc: '在我们餐厅用餐？扫描桌上的二维码，直接通过 WhatsApp 下单。',
                 payment_title: '付款说明', payment_whatsapp_title: 'WhatsApp订单', payment_whatsapp_desc: '通过WhatsApp下单：', 
-                payment_whatsapp_detail: '必须先通过Touch & Go eWallet支付至号码 <span class="font-black text-tuck-red">016-506 5983</span>',
+                payment_whatsapp_detail: '必須先通過Touch & Go eWallet支付至号码 <span class="font-black text-tuck-red">016-506 5983</span>。发送订单时请附上付款证明截图。',
                 payment_direct_title: '直接订单', payment_direct_desc: '直接向员工下单：', 
-                payment_direct_detail: '收到订单后可在柜台付款'
+                payment_direct_detail: '收到订单后可在柜台付款（仅限现金或TnG）',
+                cart_empty: '您的购物车是空的',
+                cust_base_price: '基本价格', cust_choose_size: '选择份量', cust_required: '*必填', cust_size_medium: '中 (普通)', cust_size_large: '大', cust_note_title: '厨房备注 (选填)', cust_note_placeholder: '例如：少辣，不要葱...', cust_add_btn: '加入购物车',
+                chk_payment_method: '付款方式', chk_cash: '现金', chk_tng: "Touch 'n Go 电子钱包 (016-506 5983)", chk_tng_desc: "如通过 TNG 付款，请在完成转账后通过 WhatsApp 发送您的付款截图。"
             },
             ja: {
                 nav_home: 'ホーム', nav_about: '私たちについて', nav_menu: 'メニュー', nav_reviews: 'レビュー', nav_contact: 'お問い合わせ', nav_order: '今すぐ注文',
@@ -1219,9 +1330,12 @@
                 res_label: 'テーブルを予約する', res_name: 'お名前', res_phone: '電話番号', res_date: '日付', res_time: '時間', res_guests: 'ゲスト人数', res_btn: 'WhatsAppで予約',
                 footer_contact: 'お問い合わせ', footer_scan: 'スキャン＆注文', footer_scan_desc: '食事中ですか？テーブルのQRコードをスキャンして、WhatsAppで直接ご注文ください。',
                 payment_title: '支払い方法', payment_whatsapp_title: 'WhatsApp注文', payment_whatsapp_desc: 'WhatsAppでの注文の場合：', 
-                payment_whatsapp_detail: '最初にTouch & Go eWalletで番号 <span class="font-black text-tuck-red">016-506 5983</span> に支払いが必要です',
+                payment_whatsapp_detail: '最初にTouch & Go eWalletで番号 <span class="font-black text-tuck-red">016-506 5983</span> に支払いが必要です。注文送信時に支払い証明のスクリーンショットを添付してください。',
                 payment_direct_title: '直接注文', payment_direct_desc: 'スタッフへの直接注文の場合：', 
-                payment_direct_detail: '注文受領後にカウンターで支払えます'
+                payment_direct_detail: '注文受領後、カウンターで支払えます（現金またはTnGのみ）',
+                cart_empty: 'ショッピングカートは空です',
+                cust_base_price: '基本料金', cust_choose_size: 'サイズを選択', cust_required: '*必須', cust_size_medium: '中 (レギュラー)', cust_size_large: '大 (ビッグ)', cust_note_title: 'キッチンへのメモ (任意)', cust_note_placeholder: '例：辛さ控えめ、ネギ抜き...', cust_add_btn: 'カートに追加',
+                chk_payment_method: 'お支払い方法', chk_cash: '現金', chk_tng: "Touch 'n Go eWallet (016-506 5983)", chk_tng_desc: "TNGでお支払いの場合は、送金完了後にWhatsAppで支払い証明のスクリーンショットを送信してください。"
             },
             ms: {
                 nav_home: 'Laman Utama', nav_about: 'Tentang Kami', nav_menu: 'Menu', nav_reviews: 'Ulasan', nav_contact: 'Hubungi', nav_order: 'Pesan Sekarang',
@@ -1247,9 +1361,12 @@
                 res_label: 'Tempah Meja Anda', res_name: 'Nama Anda', res_phone: 'Nombor Telefon', res_date: 'Tarikh', res_time: 'Masa', res_guests: 'Bilangan Tetamu', res_btn: 'Tempah melalui WhatsApp',
                 footer_contact: 'Hubungi Kami', footer_scan: 'Imbas & Pesan', footer_scan_desc: 'Makan di sini? Imbas kod QR di meja anda untuk membuat pesanan terus melalui WhatsApp.',
                 payment_title: 'Arahan Pembayaran', payment_whatsapp_title: 'Pesanan WhatsApp', payment_whatsapp_desc: 'Untuk pesanan melalui WhatsApp:', 
-                payment_whatsapp_detail: 'Pembayaran mesti dibuat dahulu melalui Touch & Go eWallet ke nombor <span class="font-black text-tuck-red">016-506 5983</span>',
+                payment_whatsapp_detail: 'Pembayaran mesti dibuat dahulu melalui Touch & Go eWallet ke nombor <span class="font-black text-tuck-red">016-506 5983</span>. Lampirkan tangkapan skrin bukti pembayaran apabila menghantar pesanan.',
                 payment_direct_title: 'Pesanan Langsung', payment_direct_desc: 'Untuk pesanan langsung dengan staf:', 
-                payment_direct_detail: 'Pembayaran boleh dibuat di kaunter selepas menerima pesanan anda'
+                payment_direct_detail: 'Pembayaran boleh dibuat di kaunter (Tunai atau TnG sahaja) selepas menerima pesanan anda',
+                cart_empty: 'Troli anda kosong',
+                cust_base_price: 'Harga Asas', cust_choose_size: 'Pilih Saiz', cust_required: '*Wajib', cust_size_medium: 'Sederhana (Biasa)', cust_size_large: 'Besar', cust_note_title: 'Nota Dapur (Pilihan)', cust_note_placeholder: 'Cth: Kurang pedas, tanpa daun bawang...', cust_add_btn: 'Tambah ke Troli',
+                chk_payment_method: 'Kaedah Pembayaran', chk_cash: 'Tunai', chk_tng: "Touch 'n Go eWallet (016-506 5983)", chk_tng_desc: "Jika membayar melalui TNG, sila hantar tangkapan skrin pembayaran anda melalui WhatsApp selepas melengkapkan pemindahan."
             }
         };
 
@@ -1281,6 +1398,17 @@
                     mobBtn.style.borderColor = l === lang ? '#ffcc00' : '';
                 }
             });
+
+            // Refresh menu display to show translated items
+            const activeCategory = document.querySelector('.menu-btn.active')?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || 'all';
+            if (activeCategory) {
+                renderMenuGrid(activeCategory);
+            } else {
+                renderMenuGrid('all');
+            }
+
+            // Refresh cart display to show translated items
+            updateCartUI();
 
             // Close menu
             const menu = document.getElementById('lang-menu');
