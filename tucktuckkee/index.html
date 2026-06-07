@@ -1,0 +1,45 @@
+<script>
+    // --- 1. DATA: THE COMPLETE MENU ---
+    const menuItems = [
+    ];
+
+    // --- 2. STATE ---
+    let cart = [];
+    let currentItem = null;
+    const WHATSAPP_NUM = "60165065983";
+    
+    // Add initial value to currentLang
+    const currentLang = 'en'; // Added initialization
+
+    // --- 3. UI INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        renderMenuGrid('all');
+        
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+        
+        // Scroll shadow effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-xl');
+            } else {
+                nav.classList.remove('shadow-xl');
+            }
+        });
+
+        // Table detection from URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableParam = urlParams.get('table');
+        if (tableParam) {
+            window.detectedTable = tableParam;
+            setTimeout(() => {
+                showToast(`Welcome! Dine-in Table ${tableParam} detected.`, 'success');
+            }, 1000);
+        }
+    });
+</script>
