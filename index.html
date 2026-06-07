@@ -280,7 +280,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <!-- Video Embed -->
                 <div class="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-hard border-4 border-tuck-navy aspect-video w-full bg-gray-100 flex justify-center items-center">
-               <iframe width="560" height="315" src="https://www.youtube.com/embed/la0zvzgIdys?si=NUAY2pfyRLZfpM1-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/la0zvzgIdys?si=nXL8H4ZXBGNTY6iS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen class="absolute top-0 left-0 w-full h-full"></iframe>
                 </div>
                 
                 <!-- Marketing Copy -->
@@ -1204,7 +1204,15 @@
             msg += `*ORDER DETAILS:*\n`;
             
             cart.forEach((item, index) => {
-                msg += `${index + 1}. *${item.name}* (x${item.qty})\n`;
+                let displayName = item.name;
+                const originalItem = menuItems.find(mi => mi.id === item.menuId);
+                
+                // Append Chinese name for the kitchen if the current language is not Chinese
+                if (currentLang !== 'zh' && originalItem && originalItem.name.zh) {
+                    displayName = `${item.name} (${originalItem.name.zh})`;
+                }
+
+                msg += `${index + 1}. *${displayName}* (x${item.qty})\n`;
                 if(item.size !== "Standard") msg += `   Size: ${item.size}\n`;
                 if(item.note) msg += `   Note: _${item.note}_\n`;
                 msg += `   Price: RM ${(item.price * item.qty).toFixed(2)} (RM ${item.price.toFixed(2)}/ea)\n`;
