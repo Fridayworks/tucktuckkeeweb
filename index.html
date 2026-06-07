@@ -80,6 +80,7 @@
 
         /* Language Switcher */
         .lang-dropdown { position: relative; }
+        /* Invisible bridge to prevent gap drop-off */
         .lang-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 12px; }
         .lang-menu { display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #0f172a; border: 2px solid #ffcc00; border-radius: 12px; min-width: 130px; z-index: 200; overflow: hidden; box-shadow: 4px 4px 0 rgba(15,23,42,1); }
         .lang-dropdown:hover .lang-menu, .lang-dropdown.open .lang-menu { display: block; }
@@ -96,8 +97,8 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-fire-burner text-tuck-yellow text-3xl"></i>
+                    <div class="flex items-center gap-3">
+                        <img src="logo.png" alt="Tuck Tuck Kee Logo" class="h-14 w-auto object-contain drop-shadow-md">
                         <div>
                             <h1 class="text-white font-black text-xl leading-tight tracking-wider uppercase">Tuck Tuck Kee's</h1>
                             <p class="text-tuck-yellow text-sm font-bold tracking-widest"><i class="fa-solid fa-arrow-right text-xs"></i> OCTOPUS <i class="fa-solid fa-arrow-left text-xs"></i></p>
@@ -210,7 +211,7 @@
                 <h2 class="text-4xl font-black uppercase tracking-wider text-tuck-navy" data-i18n="menu_heading">Our Menu</h2>
                 <div class="w-24 h-1 bg-tuck-red mx-auto mt-4 rounded-full"></div>
             </div>
-            
+
             <!-- Category Filter Buttons -->
             <div class="flex flex-wrap justify-center gap-4 mb-10">
                 <button onclick="renderMenuGrid('all')" class="menu-btn px-6 py-2 rounded-full font-black uppercase transition-all bg-tuck-navy text-white">All</button>
@@ -273,6 +274,38 @@
         </div>
     </section>
 
+    <!-- LEGACY/VIDEO FEATURE SECTION -->
+    <section class="py-24 bg-white border-b-4 border-tuck-red">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Video Embed -->
+                <div class="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-hard border-4 border-tuck-navy aspect-video w-full bg-gray-100 flex justify-center items-center">
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/la0zvzgIdys?si=NUAY2pfyRLZfpM1-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <!-- Marketing Copy -->
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <i class="fa-solid fa-fire-burner text-tuck-red text-2xl"></i>
+                        <span class="text-tuck-navy font-black tracking-widest uppercase text-sm" data-i18n="legacy_badge">Since 2004</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase text-tuck-navy leading-tight" data-i18n="legacy_title">A 20-Year Culinary Legacy</h2>
+                    <div class="w-16 h-1 bg-tuck-yellow rounded-full"></div>
+                    
+                    <p class="text-gray-600 font-medium leading-relaxed" data-i18n="legacy_p1">
+                        For over two decades, Tuck Tuck Kee has been more than just a place to eat—it's a living piece of Ipoh's rich culinary heritage. What began over 20 years ago as a humble family stall has blossomed into a beloved neighborhood institution, all while staying true to our roots. We are proudly family-owned and operated, pouring our hearts into every wok and every bowl just as our founder did on day one.
+                    </p>
+                    <p class="text-gray-600 font-medium leading-relaxed" data-i18n="legacy_p2">
+                        Our secret isn't just in the ingredients; it's in the time-honored techniques passed down through generations. From father to daughter, the rhythmic clatter of the spatula and the roaring flames of the wok hei have been preserved to ensure every bite of our signature noodles and fresh octopus tastes exactly as you remember it.
+                    </p>
+                    <p class="text-gray-800 font-bold border-l-4 border-tuck-yellow pl-4 italic" data-i18n="legacy_p3">
+                        When you dine with us, you aren't just a customer; you are a guest at our family table. We invite you to experience the warmth, the passion, and the uncompromising flavor that has kept generations of locals coming back for more than 20 years. Watch our story, taste our legacy, and become a part of the Tuck Tuck Kee family.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ABOUT US SECTION -->
     <section id="about" class="relative py-24 bg-tuck-navy border-b-4 border-tuck-navy">
         <!-- Background Image -->
@@ -284,7 +317,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                 <div class="lg:col-span-8">
-                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-wider text-tuck-yellow mb-6 title-stroke" data-i18n="story_heading">Our Story</h2>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-wider text-tuck-yellow mb-6 title-stroke" data-i18n="story_heading">Our Timeline</h2>
                     <div class="w-24 h-1 bg-tuck-red mb-8 rounded-full"></div>
                     
                     <!-- Alternating Story Chapters -->
@@ -1249,10 +1282,15 @@
                 hero_title1: 'Fresh Octopus,', hero_title2: 'Authentic Wok Hei!',
                 hero_desc: "Savor the freshest seafood and legendary noodles cooked with our signature recipes and street-side passion. A taste of real Ipoh you won't forget!",
                 hero_btn_menu: 'View Menu', hero_btn_reserve: 'Reserve Table',
-                menu_heading: 'Our Menu', reviews_heading: 'Customer Reviews', story_heading: 'Our Story',
+                menu_heading: 'Our Menu', reviews_heading: 'Customer Reviews', 
+                legacy_badge: 'Since 2004', legacy_title: 'A 20-Year Culinary Legacy',
+                legacy_p1: "For over two decades, Tuck Tuck Kee has been more than just a place to eat—it's a living piece of Ipoh's rich culinary heritage. What began over 20 years ago as a humble family stall has blossomed into a beloved neighborhood institution, all while staying true to our roots. We are proudly family-owned and operated, pouring our hearts into every wok and every bowl just as our founder did on day one.",
+                legacy_p2: "Our secret isn't just in the ingredients; it's in the time-honored techniques passed down through generations. From father to daughter, the rhythmic clatter of the spatula and the roaring flames of the wok hei have been preserved to ensure every bite of our signature noodles and fresh octopus tastes exactly as you remember it.",
+                legacy_p3: "When you dine with us, you aren't just a customer; you are a guest at our family table. We invite you to experience the warmth, the passion, and the uncompromising flavor that has kept generations of locals coming back for more than 20 years. Watch our story, taste our legacy, and become a part of the Tuck Tuck Kee family.",
+                story_heading: 'Our Timeline',
                 ch1_label: 'Chapter 1: The Beginning', ch1_title: "A Father's Passion",
                 ch1_text: "Tuck Tuck Kee's story began decades ago in the heart of Bercham, Ipoh, with a hardworking father and a passion for serving authentic local food. What started as a humble family-operated stall gradually became a beloved gathering place for the community, known for its traditional flavors and warm hospitality.",
-                ch2_label: 'Chapter 2: The Beginning', ch2_title: 'Learning the Craft',
+                ch2_label: 'Chapter 2: The Wok', ch2_title: 'Learning the Craft',
                 ch2_text: 'From a young age, his daughter spent her days helping at the family business. She learned every aspect of the trade—from preparing fresh ingredients and serving customers to understanding the art of cooking over a hot wok. More importantly, she learned the values of dedication, consistency, and respect for every customer who visited.',
                 ch3_label: 'Chapter 3: The Secret', ch3_title: 'Recipes Passed Down',
                 ch3_text: "The recipes that made Tuck Tuck Kee special were never written in books. They were carefully passed down from generation to generation, preserving the family's unique cooking methods, secret ingredients, and authentic flavors. These treasured recipes became part of the family's heritage and identity.",
@@ -1267,10 +1305,6 @@
                 res_heading: 'Book A Table', res_subheading: 'Secure your spot for an authentic street dining experience.',
                 res_label: 'Reserve Your Table', res_name: 'Your Name', res_phone: 'Phone Number', res_date: 'Date', res_time: 'Time', res_guests: 'Number of Guests', res_btn: 'Book via WhatsApp',
                 footer_contact: 'Contact Us', footer_scan: 'Scan & Order', footer_scan_desc: 'Dining with us? Scan the QR code at your table to place your order directly via WhatsApp.',
-                payment_title: 'Payment Instructions', payment_whatsapp_title: 'WhatsApp Orders', payment_whatsapp_desc: 'For orders placed via WhatsApp:', 
-                payment_whatsapp_detail: 'Payment must be made first via Touch & Go eWallet to number <span class="font-black text-tuck-red">016-506 5983</span>. Attach screenshot of payment proof when sending order.',
-                payment_direct_title: 'Direct Orders', payment_direct_desc: 'For orders placed directly with staff:', 
-                payment_direct_detail: 'Payment can be made at the counter (Cash or TnG only) after receiving your order',
                 cart_empty: 'Your cart is empty',
                 cust_base_price: 'Base Price', cust_choose_size: 'Choose Size', cust_required: '*Required', cust_size_medium: 'Medium (Regular)', cust_size_large: 'Large (Big)', cust_note_title: 'Kitchen Note (Optional)', cust_note_placeholder: 'e.g., Less spicy, no spring onions...', cust_add_btn: 'Add to Cart',
                 chk_payment_method: 'Payment Method', chk_cash: 'Cash', chk_tng: "Touch 'n Go eWallet (016-506 5983)", chk_tng_desc: "If paying via TNG, please send your payment screenshot via WhatsApp after completing the transfer."
@@ -1280,7 +1314,12 @@
                 hero_title1: '新鲜章鱼，', hero_title2: '正宗镬气！',
                 hero_desc: '品尝最新鲜的海鲜与传奇炒面，以家传秘方烹调，充满路边摊的热情。这是真正的怡保味道，让您念念不忘！',
                 hero_btn_menu: '查看菜单', hero_btn_reserve: '预订座位',
-                menu_heading: '我们的菜单', reviews_heading: '顾客评价', story_heading: '我们的故事',
+                menu_heading: '我们的菜单', reviews_heading: '顾客评价', 
+                legacy_badge: '始于2004年', legacy_title: '20年烹饪传奇',
+                legacy_p1: "二十多年来，Tuck Tuck Kee 不仅仅是一个吃饭的地方——它是怡保丰富饮食文化中鲜活的一部分。20多年前，从一个简陋的家庭小摊起步，如今已发展成为深受街坊喜爱的老字号，但我们始终不忘初心。我们引以为豪地保持着家族经营的传统，就像创始人第一天那样，将全部心血倾注在每一口炒锅和每一碗面中。",
+                legacy_p2: "我们的秘诀不仅在于食材，更在于代代相传的古老技艺。从父亲到女儿，锅铲有节奏的敲击声和熊熊燃烧的“镬气”被完好地保留下来，只为确保您吃到的每一口招牌面条和新鲜章鱼，都是记忆中最正宗的味道。",
+                legacy_p3: "当您在这里用餐时，您不仅仅是顾客，更是我们家餐桌上的贵客。我们诚邀您来体验这份温暖、热情和绝不妥协的美味，正是这些让一代代当地人20多年来流连忘返。观看我们的故事，品味我们的传奇，成为 Tuck Tuck Kee 家族的一员。",
+                story_heading: '我们的时间表',
                 ch1_label: '第一章：起源', ch1_title: '父亲的热情',
                 ch1_text: 'Tuck Tuck Kee 的故事始于数十年前怡保的Bercham，一位勤劳的父亲对提供正宗本地美食充满热情。最初只是一个小家庭摊位，逐渐成为社区深爱的聚集地，以传统风味和温暖待客之道著称。',
                 ch2_label: '第二章：炒锅', ch2_title: '学习手艺',
@@ -1298,10 +1337,6 @@
                 res_heading: '预订座位', res_subheading: '保留您的位置，享受正宗的路边餐饮体验。',
                 res_label: '预订您的座位', res_name: '您的姓名', res_phone: '電話号码', res_date: '日期', res_time: '時間', res_guests: '用餐人数', res_btn: '通过 WhatsApp 预订',
                 footer_contact: '联系我们', footer_scan: '扫码点餐', footer_scan_desc: '在我们餐厅用餐？扫描桌上的二维码，直接通过 WhatsApp 下单。',
-                payment_title: '付款说明', payment_whatsapp_title: 'WhatsApp订单', payment_whatsapp_desc: '通过WhatsApp下单：', 
-                payment_whatsapp_detail: '必須先通過Touch & Go eWallet支付至号码 <span class="font-black text-tuck-red">016-506 5983</span>。发送订单时请附上付款证明截图。',
-                payment_direct_title: '直接订单', payment_direct_desc: '直接向员工下单：', 
-                payment_direct_detail: '收到订单后可在柜台付款（仅限现金或TnG）',
                 cart_empty: '您的购物车是空的',
                 cust_base_price: '基本价格', cust_choose_size: '选择份量', cust_required: '*必填', cust_size_medium: '中 (普通)', cust_size_large: '大', cust_note_title: '厨房备注 (选填)', cust_note_placeholder: '例如：少辣，不要葱...', cust_add_btn: '加入购物车',
                 chk_payment_method: '付款方式', chk_cash: '现金', chk_tng: "Touch 'n Go 电子钱包 (016-506 5983)", chk_tng_desc: "如通过 TNG 付款，请在完成转账后通过 WhatsApp 发送您的付款截图。"
@@ -1311,7 +1346,12 @@
                 hero_title1: '新鮮なタコ、', hero_title2: '本格ウォックヘイ！',
                 hero_desc: '自家製レシピと路地裏の情熱で調理された、最高に新鮮な海鮮と伝説の麺料理をご堪能ください。忘れられないイポーの味をお届けします！',
                 hero_btn_menu: 'メニューを見る', hero_btn_reserve: 'テーブルを予約',
-                menu_heading: '私たちのメニュー', reviews_heading: 'お客様のレビュー', story_heading: '私たちの物語',
+                menu_heading: '私たちのメニュー', reviews_heading: 'お客様のレビュー', 
+                legacy_badge: '2004年以来', legacy_title: '20年の料理の遺産',
+                legacy_p1: "20年以上にわたり、タック・タック・キーは単なる食事の場以上の存在であり、イポーの豊かな食文化の生きた一部です。20年以上前に質素な家族の屋台として始まり、ルーツに忠実でありながら、地域で愛される名店へと成長しました。私たちは誇りを持って家族経営を続け、創業者が初日に行ったのと同じように、すべての鍋と器に心を注いでいます。",
+                legacy_p2: "私たちの秘密は食材だけではありません。代々受け継がれてきた伝統的な技術にあります。父から娘へ、リズミカルなヘラの音と燃え盛る「ウォックヘイ（鍋の気）」の炎が守られ、特製麺や新鮮なタコの一口一口が、あなたの記憶にある通りの味になるよう保たれています。",
+                legacy_p3: "当店でお食事をされる際、あなたは単なるお客様ではなく、私たちの家族の食卓のゲストです。20年以上にわたり、何世代にもわたる地元の人々を魅了し続けてきた温かさ、情熱、そして妥協のない味をぜひご体験ください。私たちの物語を観て、遺産を味わい、タック・タック・キー・ファミリーの一員になりませんか。",
+                story_heading: '私たちのタイムライン',
                 ch1_label: '第1章：始まり', ch1_title: '父の情熱',
                 ch1_text: 'タック・タック・キーの物語は数十年前、イポーのベルチャムの中心で、勤勉な父親と本物の地元料理への情熱から始まりました。小さな家族経営の屋台として始まったものが、伝統的な味と温かいおもてなしで知られる、地域の愛されるコミュニティの場へと成長していきました。',
                 ch2_label: '第2章：炒め鍋', ch2_title: '技を学ぶ',
@@ -1329,10 +1369,6 @@
                 res_heading: 'テーブルを予約', res_subheading: '本格的な路地裏ダイニング体験のためにお席を確保してください。',
                 res_label: 'テーブルを予約する', res_name: 'お名前', res_phone: '電話番号', res_date: '日付', res_time: '時間', res_guests: 'ゲスト人数', res_btn: 'WhatsAppで予約',
                 footer_contact: 'お問い合わせ', footer_scan: 'スキャン＆注文', footer_scan_desc: '食事中ですか？テーブルのQRコードをスキャンして、WhatsAppで直接ご注文ください。',
-                payment_title: '支払い方法', payment_whatsapp_title: 'WhatsApp注文', payment_whatsapp_desc: 'WhatsAppでの注文の場合：', 
-                payment_whatsapp_detail: '最初にTouch & Go eWalletで番号 <span class="font-black text-tuck-red">016-506 5983</span> に支払いが必要です。注文送信時に支払い証明のスクリーンショットを添付してください。',
-                payment_direct_title: '直接注文', payment_direct_desc: 'スタッフへの直接注文の場合：', 
-                payment_direct_detail: '注文受領後、カウンターで支払えます（現金またはTnGのみ）',
                 cart_empty: 'ショッピングカートは空です',
                 cust_base_price: '基本料金', cust_choose_size: 'サイズを選択', cust_required: '*必須', cust_size_medium: '中 (レギュラー)', cust_size_large: '大 (ビッグ)', cust_note_title: 'キッチンへのメモ (任意)', cust_note_placeholder: '例：辛さ控えめ、ネギ抜き...', cust_add_btn: 'カートに追加',
                 chk_payment_method: 'お支払い方法', chk_cash: '現金', chk_tng: "Touch 'n Go eWallet (016-506 5983)", chk_tng_desc: "TNGでお支払いの場合は、送金完了後にWhatsAppで支払い証明のスクリーンショットを送信してください。"
@@ -1342,7 +1378,12 @@
                 hero_title1: 'Sotong Segar,', hero_title2: 'Wok Hei Asli!',
                 hero_desc: 'Nikmati hidangan laut paling segar dan mi legenda yang dimasak dengan resipi istimewa kami dan semangat tepi jalan. Rasa Ipoh sebenar yang tidak akan anda lupakan!',
                 hero_btn_menu: 'Lihat Menu', hero_btn_reserve: 'Tempah Meja',
-                menu_heading: 'Menu Kami', reviews_heading: 'Ulasan Pelanggan', story_heading: 'Kisah Kami',
+                menu_heading: 'Menu Kami', reviews_heading: 'Ulasan Pelanggan', 
+                legacy_badge: 'Sejak 2004', legacy_title: 'Warisan Kulinari 20 Tahun',
+                legacy_p1: "Selama lebih dua dekad, Tuck Tuck Kee bukan sekadar tempat makan—ia adalah sebahagian daripada warisan kulinari Ipoh yang kaya dan masih hidup. Bermula lebih 20 tahun lalu sebagai gerai keluarga yang sederhana, ia kini berkembang menjadi institusi kejiranan yang disayangi, sambil kekal setia kepada akar umbi kami. Kami bangga sebagai perniagaan milik keluarga, mencurahkan sepenuh hati ke dalam setiap kuali dan mangkuk sama seperti yang dilakukan pengasas kami pada hari pertama.",
+                legacy_p2: "Rahsia kami bukan sekadar pada bahan-bahannya; ia terletak pada teknik warisan masa yang diwarurunkan dari generasi ke generasi. Dari bapa ke anak perempuan, bunyi irama sudip dan nyalaan api 'wok hei' telah dipelihara untuk memastikan setiap suapan mi istimewa dan sotong segar kami mengekalkan rasa asli yang anda ingati.",
+                legacy_p3: "Apabila anda makan bersama kami, anda bukan sekadar pelanggan; anda adalah tetamu di meja keluarga kami. Kami menjemput anda untuk merasai kemesraan, semangat, dan kelazatan tanpa kompromi yang membuatkan generasi penduduk tempatan terus kembali selama lebih 20 tahun. Tonton kisah kami, rasai warisan kami, dan jadilah sebahagian daripada keluarga Tuck Tuck Kee.",
+                story_heading: 'Garis Masa Kami',
                 ch1_label: 'Bab 1: Permulaan', ch1_title: 'Semangat Seorang Bapa',
                 ch1_text: 'Kisah Tuck Tuck Kee bermula beberapa dekad lalu di jantung Bercham, Ipoh, dengan seorang bapa yang rajin dan penuh semangat untuk menyajikan makanan tempatan yang asli. Apa yang bermula sebagai gerai keluarga yang sederhana beransur-ansur menjadi tempat perhimpunan masyarakat yang disayangi, terkenal dengan cita rasa tradisional dan keramahan yang mesra.',
                 ch2_label: 'Bab 2: Kuali', ch2_title: 'Mempelajari Kemahiran',
@@ -1360,10 +1401,6 @@
                 res_heading: 'Tempah Meja', res_subheading: 'Pastikan tempat anda untuk pengalaman makan tepi jalan yang asli.',
                 res_label: 'Tempah Meja Anda', res_name: 'Nama Anda', res_phone: 'Nombor Telefon', res_date: 'Tarikh', res_time: 'Masa', res_guests: 'Bilangan Tetamu', res_btn: 'Tempah melalui WhatsApp',
                 footer_contact: 'Hubungi Kami', footer_scan: 'Imbas & Pesan', footer_scan_desc: 'Makan di sini? Imbas kod QR di meja anda untuk membuat pesanan terus melalui WhatsApp.',
-                payment_title: 'Arahan Pembayaran', payment_whatsapp_title: 'Pesanan WhatsApp', payment_whatsapp_desc: 'Untuk pesanan melalui WhatsApp:', 
-                payment_whatsapp_detail: 'Pembayaran mesti dibuat dahulu melalui Touch & Go eWallet ke nombor <span class="font-black text-tuck-red">016-506 5983</span>. Lampirkan tangkapan skrin bukti pembayaran apabila menghantar pesanan.',
-                payment_direct_title: 'Pesanan Langsung', payment_direct_desc: 'Untuk pesanan langsung dengan staf:', 
-                payment_direct_detail: 'Pembayaran boleh dibuat di kaunter (Tunai atau TnG sahaja) selepas menerima pesanan anda',
                 cart_empty: 'Troli anda kosong',
                 cust_base_price: 'Harga Asas', cust_choose_size: 'Pilih Saiz', cust_required: '*Wajib', cust_size_medium: 'Sederhana (Biasa)', cust_size_large: 'Besar', cust_note_title: 'Nota Dapur (Pilihan)', cust_note_placeholder: 'Cth: Kurang pedas, tanpa daun bawang...', cust_add_btn: 'Tambah ke Troli',
                 chk_payment_method: 'Kaedah Pembayaran', chk_cash: 'Tunai', chk_tng: "Touch 'n Go eWallet (016-506 5983)", chk_tng_desc: "Jika membayar melalui TNG, sila hantar tangkapan skrin pembayaran anda melalui WhatsApp selepas melengkapkan pemindahan."
